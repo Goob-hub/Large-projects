@@ -1,0 +1,17 @@
+<% if(locals.tasks) { %>
+    <% for (let i = 0; i < tasks.length; i++) { const data = tasks[i];%>
+        <% if(sort === "all") { %>
+        <div class="task <%= data.type %>">
+            <input name="check" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+            <label class="h5" for="check"><%= data.name %></label>
+        </div>
+        <% } else if(data.type === sort) { %>
+            <div class="task <%= data.type %>">  
+                <input name="check" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+                <label class="h5" for="check"><%= data.name %></label>
+            </div>
+        <% } %>
+    <% } %>
+<% } else { %>
+     <h2>No tasks created yet :(</h2>   
+<% } %>

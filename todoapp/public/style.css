@@ -1,0 +1,115 @@
+@import url('https://fonts.googleapis.com/css2?family=Cabin&family=Palanquin+Dark&family=Scope+One&display=swap');
+
+:root{
+    --mainClr: #2A21A9;
+    --secondaryClr: #0F095C;
+    --tertiaryClrL: #27A811;
+    --tertiaryClrD: #195C0E;
+    --bonusClr: rgb(237, 237, 237);
+    --h1: 'Cabin', sans-serif;
+    --h2: 'Palanquin Dark', sans-serif;
+    --p: sans-serif;
+}
+
+*{
+    font-family: var(--p);
+    text-align: center;
+}
+
+body{
+    background: rgb(39,168,17);
+    background: -moz-linear-gradient(126deg, rgba(39,168,17,1) 0%, rgba(25,92,14,1) 50%);
+    background: -webkit-linear-gradient(126deg, rgba(39,168,17,1) 0%, rgba(25,92,14,1) 50%);
+    background: linear-gradient(126deg, rgba(39,168,17,1) 0%, rgba(25,92,14,1) 50%);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#27a811",endColorstr="#195c0e",GradientType=1);
+    min-height: 100vh;
+}
+
+main, body, header, .task{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    justify-content: flex-start;
+    width: fit-content;
+    max-width: 100%;
+    max-height: 90vh;
+    overflow: hidden;
+    background-color: var(--bonusClr);
+    padding: 40px;
+    border-radius: 20px;
+}
+
+h1{
+    font-family: var(--h1);
+    margin: 0;
+}
+
+h2{
+    font-family: var(--h2);
+    text-decoration: underline;
+}
+
+header h1 {
+    margin: 0;
+}
+
+header p {
+    margin: 0 0 20px 0;
+}
+
+header {
+    color: var(--main-color);
+    margin: 1.5em 0 1.5em 0;
+}
+
+.form-container{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.create, .task-list{
+    padding: 10px;
+}
+
+.create form > *, .task-list > *{
+    margin-bottom: 10px;
+}
+
+.form-check-input:hover{
+    cursor: pointer;
+}
+
+.task {
+    display: flex;
+    justify-content: flex-start;
+    flex-direction: row;
+    width: 100%;
+}
+
+#task-sort option, #task-type option{
+    text-align: left;
+}
+
+input[type=checkbox]{
+    height: 25px;
+    width: 25px;
+    margin-right: 10px;
+}
+
+input:checked + label
+{
+  text-decoration: line-through;
+}
+
+.task label{
+    margin: 0;
+}
+
+.task-list{
+    overflow-x: scroll;
+}
