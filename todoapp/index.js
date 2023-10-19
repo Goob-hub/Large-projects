@@ -17,22 +17,25 @@ const itemSchema = new mongoose.Schema({
 
 const Item = mongoose.model("Item", itemSchema);
 
+let tasksFromDB = [];
 let sortType = "all";
 
-app.post("/createTask", (req, res) => {
-    let data = {name: req.body.task, type: req.body.taskType};
-    
-    res.render("index.ejs", {tasks: defaultItems, sort: sortType});
+app.post("/createTask", async (req, res) => {
+    let task = {name: req.body.task, type: req.body.taskType};
+    await addTaskToDB(task);
+    tasksFromDB = await getTasksFromDB();
+    res.render("index.ejs", {tasks: tasksFromDB, sort: sortType});
 });
 
 app.post("/sortTasks", (req, res) => {
     sortType = req.body.taskSort;
-    res.render("index.ejs", {tasks: defaultItems, sort: sortType});
+    res.render("index.ejs", {tasks: tasksFromDB, sort: sortType});
 });
 
 app.get("/", async (req, res) => {
     let tasksArray = await getTasksFromDB();
-    res.render("index.ejs", {tasks: tasksArray, sort: sortType});
+    tasksFromDB = tasksArray;
+    res.render("index.ejs", {tasks: tasksFromDB, sort: sortType});
 });
 
 app.listen(port, () => {
@@ -43,6 +46,19 @@ async function getTasksFromDB() {
     try {
         const tasks = await Item.find();
         return tasks;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+async function addTaskToDB(task) {
+    try {
+        let newTask = new Item ({
+            name: task.name,
+            type: task.type
+        });
+
+        newTask.save();
     } catch (error) {
         console.log(error)
     }
