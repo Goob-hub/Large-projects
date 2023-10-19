@@ -36,7 +36,7 @@ main {
     justify-content: flex-start;
     width: fit-content;
     max-width: 100%;
-    max-height: 90vh;
+    max-height: 150vh;
     overflow: hidden;
     background-color: var(--bonusClr);
     padding: 40px;
@@ -70,6 +70,10 @@ header {
     display: flex;
     justify-content: center;
     flex-direction: column;
+}
+
+.form-delete-task{
+    margin-right: 10px;
 }
 
 .create, .task-list{

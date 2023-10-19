@@ -20,9 +20,19 @@ const Item = mongoose.model("Item", itemSchema);
 let tasksFromDB = [];
 let sortType = "all";
 
+//Delete item from database
+app.post("/deleteTask", async (req, res) => {
+    let filter = {name: req.body.name};
+    await deleteTaskFromDB(filter);
+
+    tasksFromDB = await getTasksFromDB();
+    res.render("index.ejs", {tasks: tasksFromDB, sort: sortType})
+});
+
 app.post("/createTask", async (req, res) => {
     let task = {name: req.body.task, type: req.body.taskType};
     await addTaskToDB(task);
+
     tasksFromDB = await getTasksFromDB();
     res.render("index.ejs", {tasks: tasksFromDB, sort: sortType});
 });
@@ -34,6 +44,7 @@ app.post("/sortTasks", (req, res) => {
 
 app.get("/", async (req, res) => {
     let tasksArray = await getTasksFromDB();
+    
     tasksFromDB = tasksArray;
     res.render("index.ejs", {tasks: tasksFromDB, sort: sortType});
 });
@@ -61,5 +72,14 @@ async function addTaskToDB(task) {
         newTask.save();
     } catch (error) {
         console.log(error)
+    }
+}
+
+async function deleteTaskFromDB(filter){
+    try {
+        let res = await Item.deleteOne(filter);
+        console.log(`Successfully deleted ${res.deletedCount} task!`)
+    } catch (error) {
+        console.log(error);
     }
 }
