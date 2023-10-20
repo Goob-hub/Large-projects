@@ -6,8 +6,12 @@
                 <input type="hidden" name="name" value="<%= task.name %>">
                 <button type="Submit" class="btn btn-danger">X</button>
             </form>
-            <input name="check" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-            <label class="h5" for="check"><%= task.name %></label>
+            <form action="updateTask" method="post">
+                <input type="hidden" name="name" value="<%= task.name %>">
+                <input type="hidden" name="isDone" value="<%= task.isDone || 'false' %>">
+                <input type="checkbox" class="form-check-input" id="flexCheckDefault">
+                <label class="h5" for="isDone"><%= task.name %></label>
+            </form>
         </div>
         <% } else if(task.type === sort) { %>
             <div class="task <%= task.type %>">  
@@ -15,8 +19,12 @@
                     <input type="hidden" name="name" value="<%= task.name %>">
                     <button type="Submit" class="btn btn-danger">X</button>
                 </form>
-                <input name="check" class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
-                <label class="h5" for="check"><%= task.name %></label>
+                <form action="updateTask" method="post">
+                    <input type="hidden" name="name" value="<%= task.name %>">
+                    <input type="hidden" name="isDone" value="<%= task.isDone || 'false' %>">
+                    <input type="checkbox" class="form-check-input" id="flexCheckDefault">
+                    <label class="h5" for="isDone"><%= task.name %></label>
+                </form>
             </div>
         <% } %>
     <% } %>
