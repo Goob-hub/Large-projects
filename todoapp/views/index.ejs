@@ -1,52 +1,27 @@
 <%- include("partials/header.ejs") %>
 
+<header>
+    <h1 class="display-1">Current list name</h1>
+    <!-- <h1 class="display-1">cur</h1> -->
+</header>
+
 <main>
-    <header>
-        <h1 class="display-1">TO DO</h1>
-        <p class="h3">Reminds you of everything</p>
-    </header>
     
     <section class="create">  
         <h2>Create task</h2>
         <form class=" " action="createTask" method="post">
-            <div class="col-auto">
-                <div class="input-group">
-                    <input class="form-control" type="text" id="task" name="task" required>
-                </div>
-            </div>
-            <div class="col-auto">
-                <select class="form-select" name="taskType" id="task-type">
-                    <option value="work">Work task</option>
-                    <option value="daily">Daily task</option>
-                </select>
-            </div>
-            <div class="col-auto">
-                <button type="submit" class="btn btn-primary">Create task</button>
+            <div class="">
+                <input class="form-control" placeholder="Task name" type="text" id="task" name="task" required>
+                <button type="submit" class="btn btn-primary">Create</button>
             </div>
         </form>
     </section>
          
-    <section class="task-list">
+    <section class="tasks">
         <h2>Tasks</h2>
-        <form class="input-group" action="sortTasks" method="post">
-            <select class="form-select" name="taskSort" id="task-sort">
-                <% if(locals.sort && sort === "daily") { %>
-                    <option value="all">All</option>
-                    <option value="work">Work tasks</option>
-                    <option selected value="daily">Daily tasks</option>
-                <% } else if(locals.sort && sort === "work") { %>
-                    <option value="all">All</option>
-                    <option selected value="work">Work tasks</option>
-                    <option value="daily">Daily tasks</option>
-                <% } else if(locals.sort) { %>
-                    <option selected value="all">All</option>
-                    <option value="work">Work tasks</option>
-                    <option value="daily">Daily tasks</option>
-                <% } %>
-            </select>
-            <button type="submit" class="btn btn-primary">Sort</button>
-        </form> 
-        <%- include("partials/tasks.ejs") %>
+        <div class="task-list">
+            <%- include("partials/tasks.ejs") %>
+        </div>
     </section>
 </main>
 

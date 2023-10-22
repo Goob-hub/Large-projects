@@ -1,32 +1,17 @@
-<% if(locals.tasks) { %>
+<% if(locals.tasks && locals.tasks.length > 0) { %>
     <% for (let i = 0; i < tasks.length; i++) { const task = tasks[i];%>
-        <% if(sort === "all") { %>
-        <div class="task <%= task.type %>">
+        <div class="task">
             <form class="form-delete-task" action="deleteTask" method="post">
                 <input type="hidden" name="name" value="<%= task.name %>">
                 <button type="Submit" class="btn btn-danger">X</button>
             </form>
-            <form action="updateTask" method="post">
+            <form class="form-task" action="updateTask" method="post">
                 <input type="hidden" name="name" value="<%= task.name %>">
                 <input type="hidden" name="isDone" value="<%= task.isDone || 'false' %>">
                 <input type="checkbox" class="form-check-input" id="flexCheckDefault">
-                <label class="h5" for="isDone"><%= task.name %></label>
+                <label class="h5 task-name-label" for="isDone"><%= task.name %></label>
             </form>
         </div>
-        <% } else if(task.type === sort) { %>
-            <div class="task <%= task.type %>">  
-                <form class="form-delete-task" action="deleteTask" method="post">
-                    <input type="hidden" name="name" value="<%= task.name %>">
-                    <button type="Submit" class="btn btn-danger">X</button>
-                </form>
-                <form action="updateTask" method="post">
-                    <input type="hidden" name="name" value="<%= task.name %>">
-                    <input type="hidden" name="isDone" value="<%= task.isDone || 'false' %>">
-                    <input type="checkbox" class="form-check-input" id="flexCheckDefault">
-                    <label class="h5" for="isDone"><%= task.name %></label>
-                </form>
-            </div>
-        <% } %>
     <% } %>
 <% } else { %>
      <h2>No tasks created yet :(</h2>   

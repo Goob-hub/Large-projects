@@ -10,97 +10,110 @@ mongoose.connect(url);
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-const itemSchema = new mongoose.Schema({
+const listSchema = new mongoose.Schema({
     name: String,
-    type: String,
-    isDone: String
+    items: Array
 });
 
-const Item = mongoose.model("Item", itemSchema);
+const List = mongoose.model("Lists", listSchema);
 
 let tasksFromDB = [];
-let sortType = "all";
+let curList = "Today"
 
 app.post("/updateTask", async (req, res) => {
-    let filter = {name: req.body.name};
-    let params = {isDone: req.body.isDone};
-    await updateTask(filter, params);
+    // let filter = {name: req.body.name};
+    // let params = {isDone: req.body.isDone};
+    // await updateTask(filter, params);
 
-    tasksFromDB = await getTasksFromDB();
+    // tasksFromDB = await getTasksFromDB();
     res.redirect("/");
 });
 
 app.post("/deleteTask", async (req, res) => {
-    console.log(req.body)
-    let filter = {name: req.body.name};
-    await deleteTaskFromDB(filter);
+    // console.log(req.body)
+    // let filter = {name: req.body.name};
+    // await deleteTaskFromDB(filter);
 
-    tasksFromDB = await getTasksFromDB();
+    // tasksFromDB = await getTasksFromDB();
     res.redirect("/")
 });
 
 app.post("/createTask", async (req, res) => {
-    console.log(req.body)
-    let task = {name: req.body.task, type: req.body.taskType, isDone: "false"};
-    await addTaskToDB(task);
+    let task = {name: req.body.task, isDone: "false"};
+    await addTaskToCurList(task);
 
-    tasksFromDB = await getTasksFromDB();
-    res.redirect("/")
-});
-
-app.post("/sortTasks", (req, res) => {
-    console.log(req.body)
-    sortType = req.body.taskSort;
-    res.redirect("/")
+    tasksFromDB = await getTasksFromList(curList);
+    res.redirect("/");
 });
 
 app.get("/", async (req, res) => {
-    let tasksArray = await getTasksFromDB();
-    tasksFromDB = tasksArray;
-    res.render("index.ejs", {tasks: tasksFromDB, sort: sortType});
+    let tasks = await getTasksFromList(curList);
+    tasksFromDB = tasks;
+    res.render("index.ejs", {tasks: tasksFromDB, curList: curList});
 });
+
+app.get("/:listName", async (req, res) => {
+    res.redirect("/");
+});
+
 
 app.listen(port, () => {
     console.log(`Server is now running on ${port}` );
 });
 
-async function getTasksFromDB() {
+async function getTasksFromList(listName) {
     try {
-        const tasks = await Item.find();
-        return tasks;
+        const list = await List.findOne({name: listName});
+        return list.items;
     } catch (error) {
         console.log(error)
     }
 }
 
-async function addTaskToDB(task) {
+async function addTaskToCurList(task){
     try {
-        let newTask = new Item ({
-            name: task.name,
-            type: task.type,
-            isDone: "false"
-        });
+        let listItems = await getTasksFromList(curList);
 
-        newTask.save();
+        if(listItems == undefined){
+            throw new Error("Could not find list items from " + curList + " List");
+        }
+
+        listItems.push(task)
+        let res = await List.updateOne({name: curList}, {items: listItems})
+        console.log(`Successfully updated ${curList} list!`);
     } catch (error) {
-        console.log(error)
+        
     }
+
 }
 
-async function deleteTaskFromDB(filter){
-    try {
-        let res = await Item.deleteOne(filter);
-        console.log(`Successfully deleted ${res.deletedCount} task!`)
-    } catch (error) {
-        console.log(error);
-    }
-}
+// async function addListToLists(listName, items) {
+//     try {
+//         let newList = new List ({
+//             name: listName,
+//             items: items || []
+//         });
 
-async function updateTask(filter, params){
-    try {
-        let res = await Item.updateOne(filter, params);
-        console.log(`Successfully updated ${res.matchedCount} task!`);
-    } catch (error) {
-        console.log(error);
-    }
-}
+//         newList.save();
+//     } catch (error) {
+//         console.log(error)
+//     }
+// }
+
+// async function deleteTaskFromDB(filter){
+//     try {
+//         let res = await Item.deleteOne(filter);
+//         console.log(`Successfully deleted ${res.deletedCount} task!`)
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
+
+// async function updateTask(filter, params){
+//     try {
+//         let res = await Item.updateOne(filter, params);
+//         console.log(`Successfully updated ${res.matchedCount} task!`);
+//     } catch (error) {
+//         console.log(error);
+//     }
+// }
