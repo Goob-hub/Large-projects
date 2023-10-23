@@ -54,17 +54,13 @@ h2{
     text-decoration: underline;
 }
 
-header h1 {
-    margin: 0;
-}
-
-header p {
-    margin: 0 0 20px 0;
-}
-
 header {
-    color: var(--main-color);
     margin: 1.5em 0 1.5em 0;
+}
+
+header h1 {
+    color: var(--bonusClr);
+    margin: 0;
 }
 
 .form-task{

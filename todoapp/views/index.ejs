@@ -1,12 +1,10 @@
 <%- include("partials/header.ejs") %>
 
 <header>
-    <h1 class="display-1">Current list name</h1>
-    <!-- <h1 class="display-1">cur</h1> -->
+    <h1 class="display-1"><%= curList %></h1>
 </header>
 
 <main>
-    
     <section class="create">  
         <h2>Create task</h2>
         <form class=" " action="createTask" method="post">

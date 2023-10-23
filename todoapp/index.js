@@ -15,10 +15,10 @@ const listSchema = new mongoose.Schema({
     items: Array
 });
 
-const List = mongoose.model("Lists", listSchema);
+const Lists = mongoose.model("Lists", listSchema);
 
 let tasksFromDB = [];
-let curList = "Today"
+let curList = "Today";
 
 app.post("/updateTask", async (req, res) => {
     // let filter = {name: req.body.name};
@@ -30,19 +30,26 @@ app.post("/updateTask", async (req, res) => {
 });
 
 app.post("/deleteTask", async (req, res) => {
-    // console.log(req.body)
-    // let filter = {name: req.body.name};
-    // await deleteTaskFromDB(filter);
-
-    // tasksFromDB = await getTasksFromDB();
+    let taskName = req.body.name;
+    await deleteTaskFromCurList(taskName);
     res.redirect("/")
 });
 
 app.post("/createTask", async (req, res) => {
     let task = {name: req.body.task, isDone: "false"};
     await addTaskToCurList(task);
+    res.redirect("/");
+});
 
-    tasksFromDB = await getTasksFromList(curList);
+app.get("/:listName", async (req, res) => {
+    var listName = req.body.params;
+
+    if(listName == undefined){
+        return;
+    }
+
+    curList = listName;
+    await createNewList(listName);
     res.redirect("/");
 });
 
@@ -52,18 +59,13 @@ app.get("/", async (req, res) => {
     res.render("index.ejs", {tasks: tasksFromDB, curList: curList});
 });
 
-app.get("/:listName", async (req, res) => {
-    res.redirect("/");
-});
-
-
 app.listen(port, () => {
     console.log(`Server is now running on ${port}` );
 });
 
 async function getTasksFromList(listName) {
     try {
-        const list = await List.findOne({name: listName});
+        const list = await Lists.findOne({name: listName});
         return list.items;
     } catch (error) {
         console.log(error)
@@ -79,35 +81,42 @@ async function addTaskToCurList(task){
         }
 
         listItems.push(task)
-        let res = await List.updateOne({name: curList}, {items: listItems})
+        let res = await Lists.updateOne({name: curList}, {items: listItems})
         console.log(`Successfully updated ${curList} list!`);
     } catch (error) {
-        
+        console.log(error);
     }
-
 }
 
-// async function addListToLists(listName, items) {
-//     try {
-//         let newList = new List ({
-//             name: listName,
-//             items: items || []
-//         });
+async function createNewList(listName, items) {
+    try {
+        let newList = new Lists ({
+            name: listName,
+            items: items || []
+        });
 
-//         newList.save();
-//     } catch (error) {
-//         console.log(error)
-//     }
-// }
+        newList.save();
+    } catch (error) {
+        console.log(error)
+    }
+}
 
-// async function deleteTaskFromDB(filter){
-//     try {
-//         let res = await Item.deleteOne(filter);
-//         console.log(`Successfully deleted ${res.deletedCount} task!`)
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+async function deleteTaskFromCurList(taskName){
+    try {
+        let listItems = await getTasksFromList(curList);
+
+        if(listItems == undefined){
+            throw new Error("Could not find list items from " + curList + " List");
+        }
+
+        listItems = listItems.filter(task => {return task.name !== taskName});
+
+        let res = await Lists.updateOne({name: curList}, {items: listItems})
+        console.log(`Successfully deleted task from ${curList} list!`);
+    } catch (error) {
+        console.log(error);
+    }
+}
 
 // async function updateTask(filter, params){
 //     try {
