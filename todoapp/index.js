@@ -21,11 +21,9 @@ let tasksFromDB = [];
 let curList = "Today";
 
 app.post("/updateTask", async (req, res) => {
-    // let filter = {name: req.body.name};
-    // let params = {isDone: req.body.isDone};
-    // await updateTask(filter, params);
+    let task = {name: req.body.name, isDone: req.body.isDone};
+    await updateTaskFromCurList(task);
 
-    // tasksFromDB = await getTasksFromDB();
     res.redirect("/");
 });
 
@@ -42,9 +40,9 @@ app.post("/createTask", async (req, res) => {
 });
 
 app.get("/:listName", async (req, res) => {
-    var listName = req.body.params;
+    var listName = req.params.listName;
 
-    if(listName == undefined){
+    if(listName == undefined || listName === "favicon.ico"){
         return;
     }
 
@@ -81,8 +79,8 @@ async function addTaskToCurList(task){
         }
 
         listItems.push(task)
-        let res = await Lists.updateOne({name: curList}, {items: listItems})
-        console.log(`Successfully updated ${curList} list!`);
+        let res = await Lists.updateOne({name: curList}, {items: listItems});
+        console.log(`Successfully added task to ${curList} list!`);
     } catch (error) {
         console.log(error);
     }
@@ -118,11 +116,24 @@ async function deleteTaskFromCurList(taskName){
     }
 }
 
-// async function updateTask(filter, params){
-//     try {
-//         let res = await Item.updateOne(filter, params);
-//         console.log(`Successfully updated ${res.matchedCount} task!`);
-//     } catch (error) {
-//         console.log(error);
-//     }
-// }
+async function updateTaskFromCurList(item){
+    try {
+        let listItems = await getTasksFromList(curList);
+
+        if(listItems == undefined){
+            throw new Error("Could not find list items from " + curList + " List");
+        }
+
+        listItems.forEach(task => {
+            if(task.name === item.name){
+                task.isDone = item.isDone;
+                task.name = item.name;
+            }
+        });
+
+        let res = await Lists.updateOne({name: curList}, {items: listItems})
+        console.log(`Successfully updated task from ${curList} list!`);
+    } catch (error) {
+        console.log(error);
+    }
+}
