@@ -71,9 +71,14 @@ app.listen(port, () => {
 async function getTasksFromList(listName) {
     try {
         const list = await Lists.findOne({name: listName});
-        return list.items;
+        if(list == undefined){
+            await createNewList(listName);
+            return [];
+        } else {
+            return list.items;
+        }
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
 
