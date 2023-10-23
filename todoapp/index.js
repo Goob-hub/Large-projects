@@ -17,6 +17,13 @@ const listSchema = new mongoose.Schema({
 
 const Lists = mongoose.model("Lists", listSchema);
 
+async function deleteListsWithoutItems(){
+    let res = await Lists.deleteMany({items: []});
+    console.log(res);
+}
+
+deleteListsWithoutItems();
+
 let tasksFromDB = [];
 let curList = "Today";
 
@@ -88,14 +95,27 @@ async function addTaskToCurList(task){
 
 async function createNewList(listName, items) {
     try {
-        let newList = new Lists ({
-            name: listName,
-            items: items || []
+        let allLists = await Lists.find();
+        let doesListExist = false;
+
+        allLists.forEach(list => {
+            if(list.name === listName){
+                doesListExist = true;
+            }
         });
 
-        newList.save();
+        if(doesListExist){
+           console.log(`Did not save list because a list with the name ${listName} already exists.`)
+        } else {
+            let newList = new Lists ({
+                name: listName,
+                items: items || []
+            });
+
+            newList.save();
+        }
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }
 
