@@ -47,12 +47,13 @@ app.post("/createTask", async (req, res) => {
 });
 
 app.get("/:listName", async (req, res) => {
-    var listName = req.params.listName;
-
+    let listName = req.params.listName;
     if(listName == undefined || listName === "favicon.ico"){
         return;
     }
-
+    
+    listName = `${listName[0].toUpperCase()}${listName.slice(1, listName.length).toLowerCase()}`;
+    
     curList = listName;
     await createNewList(listName);
     res.redirect("/");
@@ -100,16 +101,9 @@ async function addTaskToCurList(task){
 
 async function createNewList(listName, items) {
     try {
-        let allLists = await Lists.find();
-        let doesListExist = false;
+        let list = await Lists.findOne({name: listName});
 
-        allLists.forEach(list => {
-            if(list.name === listName){
-                doesListExist = true;
-            }
-        });
-
-        if(doesListExist){
+        if(list != undefined){
            console.log(`Did not save list because a list with the name ${listName} already exists.`)
         } else {
             let newList = new Lists ({
