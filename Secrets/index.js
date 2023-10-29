@@ -6,7 +6,7 @@ import pg from "pg";
 const db = new pg.Client({
   user: "postgres",
   host: "localhost",
-  database: "perma_list",
+  database: "secrets",
   password: "elephantdb2023",
   port: 5432,
 });
@@ -29,6 +29,27 @@ app.get("/login", (req, res) => {
 
 app.get("/register", (req, res) => {
     res.render("register.ejs");
+});
+
+app.post("/register", async (req, res) => {
+    try {
+        const text = "INSERT INTO users(username, password) VALUES($1, $2)";
+        const values = [req.body.username, req.body.password];
+        const result = await db.query(text, values);
+        res.redirect("/");
+    } catch (error) {
+        console.log("this is an error", error);
+        res.render("register.ejs", {error: error.constraint});
+    }
+});
+
+app.post("/login", async (req, res) => {
+    try {
+        const text = "SELECT * FROM users WHERE "
+    } catch (error) {
+        console.log("this is an error", error);
+        res.render("/login", {error: error.constraint});
+    }
 });
 
 app.listen(port, () => {
