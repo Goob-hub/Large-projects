@@ -31,6 +31,14 @@ app.get("/register", (req, res) => {
     res.render("register.ejs");
 });
 
+app.get("/logout", (req, res) => {
+    res.redirect("/");
+});
+
+app.get("/submit", (req, res) => {
+    res.render("submit.ejs");
+});
+
 app.post("/register", async (req, res) => {
     try {
         const text = "INSERT INTO users(username, password) VALUES($1, $2)";
@@ -45,7 +53,16 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     try {
-        const text = "SELECT * FROM users WHERE "
+        const text = "SELECT * FROM users WHERE users.username = $1 AND users.password = $2";
+        const values = [req.body.username, req.body.password];
+        const result = await db.query(text, values);
+        
+        if(result.rows.length === 0){
+            res.render("login.ejs", {error: "Incorrect username or password."});
+        } else {
+            res.render("secrets.ejs");
+        }
+        
     } catch (error) {
         console.log("this is an error", error);
         res.render("/login", {error: error.constraint});
