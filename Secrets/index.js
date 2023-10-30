@@ -41,7 +41,7 @@ app.get("/submit", (req, res) => {
 
 app.post("/register", async (req, res) => {
     try {
-        const text = "INSERT INTO users(username, password) VALUES($1, $2)";
+        const text = "INSERT INTO users(username, password) VALUES($1, crypt($2, gen_salt('md5'))";
         const values = [req.body.username, req.body.password];
         const result = await db.query(text, values);
         res.redirect("/");
@@ -53,7 +53,7 @@ app.post("/register", async (req, res) => {
 
 app.post("/login", async (req, res) => {
     try {
-        const text = "SELECT * FROM users WHERE users.username = $1 AND users.password = $2";
+        const text = "SELECT id FROM users WHERE username = $1 AND password = crypt($2, password);";
         const values = [req.body.username, req.body.password];
         const result = await db.query(text, values);
         
@@ -62,10 +62,9 @@ app.post("/login", async (req, res) => {
         } else {
             res.render("secrets.ejs");
         }
-        
     } catch (error) {
         console.log("this is an error", error);
-        res.render("/login", {error: error.constraint});
+        res.render("login.ejs", {error: error.constraint});
     }
 });
 
