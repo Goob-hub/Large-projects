@@ -1,18 +1,20 @@
 //jshint esversion:6
+import 'dotenv/config'
 import bodyParser from "body-parser";
 import express from "express";
 import pg from "pg";
 
+
 const db = new pg.Client({
-  user: "postgres",
-  host: "localhost",
-  database: "secrets",
-  password: "elephantdb2023",
-  port: 5432,
+  user: process.env.DB_USER,
+  host: process.env.HOST,
+  database: process.env.DB_NAME,
+  password: process.env.DB_PASSWORD,
+  port: parseInt(process.env.DB_PORT),
 });
 
 const app = express();
-const port = 3000;
+const port = parseInt(process.env.NORMAL_PORT);
 
 db.connect();
 
@@ -41,13 +43,13 @@ app.get("/submit", (req, res) => {
 
 app.post("/register", async (req, res) => {
     try {
-        const text = "INSERT INTO users(username, password) VALUES($1, crypt($2, gen_salt('md5'))";
+        const text = `INSERT INTO users(username, password) VALUES($1, crypt($2, ${process.env.ENCRYPTION_STYLE}))`;
         const values = [req.body.username, req.body.password];
         const result = await db.query(text, values);
         res.redirect("/");
     } catch (error) {
         console.log("this is an error", error);
-        res.render("register.ejs", {error: error.constraint});
+        res.render("register.ejs", {error: error});
     }
 });
 
