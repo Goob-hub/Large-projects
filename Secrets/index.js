@@ -1,5 +1,6 @@
 //jshint esversion:6
 import 'dotenv/config'
+import bcrypt from 'bcrypt'
 import bodyParser from "body-parser";
 import express from "express";
 import pg from "pg";
@@ -15,6 +16,8 @@ const db = new pg.Client({
 
 const app = express();
 const port = parseInt(process.env.NORMAL_PORT);
+const saltRounds = 10;
+
 
 db.connect();
 
@@ -42,24 +45,28 @@ app.get("/submit", (req, res) => {
 });
 
 app.post("/register", async (req, res) => {
-    try {
-        const text = `INSERT INTO users(username, password) VALUES($1, crypt($2, ${process.env.ENCRYPTION_STYLE}))`;
-        const values = [req.body.username, req.body.password];
-        const result = await db.query(text, values);
-        res.redirect("/");
-    } catch (error) {
-        console.log("this is an error", error);
-        res.render("register.ejs", {error: error});
-    }
+    bcrypt.hash(req.body.password, saltRounds, async function(err, hash) {
+        try {
+            let hashPassword = hash;
+            const text = `INSERT INTO users(username, password) VALUES($1, $2)`;
+            const values = [req.body.username, hashPassword];
+            const result = await db.query(text, values);
+            res.redirect("/");
+        }  catch (error) {
+            console.log("this is an error", error);
+            res.render("register.ejs", {error: error});
+        }
+    });
 });
 
 app.post("/login", async (req, res) => {
     try {
-        const text = "SELECT id FROM users WHERE username = $1 AND password = crypt($2, password);";
-        const values = [req.body.username, req.body.password];
+        const text = "SELECT password FROM users WHERE username = $1";
+        const values = [req.body.username];
         const result = await db.query(text, values);
-        
-        if(result.rows.length === 0){
+        const match = await bcrypt.compare(req.body.password, result.rows[0].password);
+
+        if(!match){
             res.render("login.ejs", {error: "Incorrect username or password."});
         } else {
             res.render("secrets.ejs");
