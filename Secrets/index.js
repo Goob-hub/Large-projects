@@ -14,7 +14,6 @@ const port = parseInt(process.env.NORMAL_PORT);
 const saltRounds = 10;
 
 app.use(express.static("public"));
-app.set('view engine', 'ejs');
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(session({
     secret: process.env.SECRET,
@@ -67,17 +66,43 @@ passport.use(new LocalStrategy(async function verify(username, password, done) {
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "https://localhost:3000/auth/google/secrets"
+    callbackURL: "http://localhost:3000/auth/google/secrets",
   },
-  function(accessToken, refreshToken, profile, cb) {
-    User.findOrCreate({ googleId: profile.id }, function (err, user) {
-      return cb(err, user);
-    });
+  async function(accessToken, refreshToken, profile, cb) {
+    try {
+        const text = "SELECT * FROM google_users WHERE google_id = $1";
+        const values = [profile.id];
+        const result = await db.query(text, values);
+        const user = result.rows[0];
+        if(!user){
+            try {
+                const newResult = await db.query("INSERT INTO google_users(google_id) VALUES($1) RETURNING *", [profile.id]);
+                const newUser = newResult.rows[0];
+                
+                if(newUser){
+                    return cb(null, newUser);
+                }
+            } catch (error) {
+                return cb(error, false);
+            }
+        }
+    } catch (error) {
+        cb(error, false);
+    }
+
+
   }
 ));
 
 app.get("/", (req, res) => {
     res.render("home.ejs");
+});
+
+app.get('/auth/google',passport.authenticate('google', { scope: ['profile'] }));
+
+app.get('/auth/google/secrets', passport.authenticate('google', { failureRedirect: '/login' }),
+  function(req, res) {
+    res.redirect('/secrets');
 });
 
 app.get("/login", (req, res) => {
@@ -87,7 +112,6 @@ app.get("/login", (req, res) => {
 app.get("/register", (req, res) => {
     res.render("register.ejs");
 });
-
 
 app.get("/submit", (req, res) => {
     res.render("submit.ejs");
