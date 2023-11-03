@@ -74,6 +74,7 @@ passport.use(new GoogleStrategy({
         const values = [profile.id];
         const result = await db.query(text, values);
         const user = result.rows[0];
+        console.log(user)
         if(!user){
             try {
                 const newResult = await db.query("INSERT INTO google_users(google_id) VALUES($1) RETURNING *", [profile.id]);
@@ -85,6 +86,8 @@ passport.use(new GoogleStrategy({
             } catch (error) {
                 return cb(error, false);
             }
+        } else {
+            return cb(null, user)
         }
     } catch (error) {
         cb(error, false);
@@ -114,7 +117,11 @@ app.get("/register", (req, res) => {
 });
 
 app.get("/submit", (req, res) => {
-    res.render("submit.ejs");
+    if(req.isAuthenticated()){
+        res.render("submit.ejs")        
+    } else {
+        res.redirect("/login");
+    }
 });
 
 app.get("/logout", (req, res) => {
@@ -124,12 +131,39 @@ app.get("/logout", (req, res) => {
     });
 });
 
-app.get('/secrets', function(req, res, next) {
-    if(req.isAuthenticated()){
-        res.render("secrets.ejs")        
-    } else {
-        res.redirect("/login");
+app.get('/secrets', async (req, res, next) => {
+    const resultNormal = await db.query("SELECT secret FROM users WHERE secret IS NOT NULL");
+    const resultGoogle = await db.query("SELECT secret FROM google_users WHERE secret IS NOT NULL");
+
+    let secrets = resultNormal.rows.concat(resultGoogle.rows);
+    res.render("secrets.ejs", {secrets: secrets});
+});
+
+app.post("/submit", async (req, res) => {
+    let secret = req.body.secret;
+    let user;
+
+    console.log(req.user)
+
+    if(req.user.username){
+        user = req.user.username;
+        try {
+            const result = await db.query("UPDATE users SET secret = $1 WHERE username = $2", [secret, user]);
+            
+        } catch (error) {
+            console.log(error.message)
+        }
+    } else{
+        user = req.user.id;
+        try {
+            const result = await db.query("UPDATE google_users SET secret = $1 WHERE id = $2", [secret, user]);
+            
+        } catch (error) {
+            console.log(error.message);
+        }
     }
+
+    res.redirect("/secrets")
 });
 
 app.post("/register", async (req, res, next) => {
