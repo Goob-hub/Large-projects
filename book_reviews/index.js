@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from "express";
 import bodyParser from "body-parser";
+import axios from "axios";
 import pg from "pg";
 
 const app = express();
@@ -19,8 +20,17 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-app.get("/", (req, res) => {
-    res.send("Server is up and running nerd!");
+const API_LINK = "https://covers.openlibrary.org/b/"
+
+app.get("/", async (req, res) => {
+    //key: ibsn value: 1936891026 size: M
+    try {
+      const result = await axios.get(API_LINK + "ibsn/1936891026-L.jpg");
+      console.log(result.data);
+    } catch (error) {
+      console.error(error.status);
+    }
+    res.render("index.ejs");
 });
 
 app.listen(port, () => {
