@@ -22,6 +22,33 @@ app.use(express.static("public"));
 
 const API_URL = "https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg";
 
+function formatBookReviewData(reviewData) {
+  if(reviewData.day.length < 10) {
+    reviewData.day = "0" + reviewData.day;
+  }
+
+  if(reviewData.month.length === 1) {
+    reviewData.month = "0" + reviewData.month;
+  }
+
+  let date = `${reviewData.year}-${reviewData.month}-${reviewData.day}`;
+  let isRealDate = isDateValid(date);
+
+  if(isRealDate) {
+    return {
+      title: reviewData.title,
+      authors: reviewData.authors,
+      ibsn: reviewData.ibsn,
+      date_read: date
+    }
+  } else {
+    return "uh oh spaghetti-o"
+  }
+}
+
+function isDateValid(dateStr) {
+  return !isNaN(new Date(dateStr));
+}
 
 app.get("/", async (req, res) => {
     try {
@@ -39,6 +66,12 @@ app.get("/create", async (req, res) => {
     console.error(error.status);
   }
   res.render("create_review.ejs", { curWebPage: "create_review" })
+});
+
+app.post("/create", async (req, res) => {
+  const data = formatBookReviewData(req.body);
+  console.log(data);
+  res.redirect("/")
 });
 
 app.listen(port, () => {
