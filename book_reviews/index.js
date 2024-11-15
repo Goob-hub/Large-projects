@@ -22,6 +22,11 @@ app.use(express.static("public"));
 
 const API_URL = "https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg";
 
+async function getBooksAndReviews() {
+  const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating"
+  const response = await db.query(`SELECT ${dataToFetch} from books JOIN reviews ON review.id = books.id`);
+}
+
 function formatBookReviewData(reviewData) {
   if(reviewData.day.length < 10) {
     reviewData.day = "0" + reviewData.day;
@@ -52,7 +57,7 @@ function isDateValid(dateStr) {
 
 app.get("/", async (req, res) => {
     try {
-
+      
     } catch (error) {
       console.error(error.status);
     }
@@ -70,7 +75,19 @@ app.get("/create", async (req, res) => {
 
 app.post("/create", async (req, res) => {
   const data = formatBookReviewData(req.body);
-  console.log(data);
+  try {
+    const response = await db.query("INSERT INTO books (title, authors, ibsn, date_read) VALUES($1, $2, $3, $4)", [data.title, data.authors, data.ibsn, data.date_read]);
+
+    try {
+      //This is where we would handle inserting the review of said book from the user
+    } catch (error) {
+      console.error(error.status);
+    }
+
+  } catch (error) {
+    console.error(error.status);
+  }
+
   res.redirect("/")
 });
 
