@@ -1,0 +1,18 @@
+<%- include("partials/header.ejs") %>
+<body>
+    <form action="create" method="post">
+        <input type="text" placeholder="Title" required>
+        <input type="text" placeholder="Authors" required>
+        <input type="number" placeholder="IBSN" required>
+
+        <div class="date-input-container">
+            <h1>Date Read</h1>
+            <input type="number" placeholder="Year" required>
+            <input type="number" placeholder="Month" required>
+            <input type="number" placeholder="Day" required> 
+        </div>
+
+        <button type="submit">Create review!</button>
+    </form>
+</body>
+</html>

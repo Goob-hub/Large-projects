@@ -20,17 +20,25 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const API_LINK = "https://covers.openlibrary.org/b/"
+const API_URL = "https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg";
+
 
 app.get("/", async (req, res) => {
-    //key: ibsn value: 1936891026 size: M
     try {
-      const result = await axios.get(API_LINK + "ibsn/1936891026-L.jpg");
-      console.log(result.data);
+
     } catch (error) {
       console.error(error.status);
     }
-    res.render("index.ejs");
+    res.render("index.ejs", { curWebPage: "index" });
+});
+
+app.get("/create", async (req, res) => {
+  try {
+
+  } catch (error) {
+    console.error(error.status);
+  }
+  res.render("create_review.ejs", { curWebPage: "create_review" })
 });
 
 app.listen(port, () => {
