@@ -56,12 +56,12 @@ function isDateValid(dateStr) {
 }
 
 app.get("/", async (req, res) => {
-    try {
-      
-    } catch (error) {
-      console.error(error.status);
-    }
-    res.render("index.ejs", { curWebPage: "index" });
+  try {
+    //Fetch data from database
+  } catch (error) {
+    console.error(error.status);
+  }
+  res.render("index.ejs", { curWebPage: "index" });
 });
 
 app.get("/create", async (req, res) => {
