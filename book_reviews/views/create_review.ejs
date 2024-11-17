@@ -9,9 +9,7 @@
 
         <div class="date-input-container">
             <h1>Date Read</h1>
-            <input name="year" type="number" placeholder="Year" max="<%= new Date().getFullYear() %>" required>
-            <input name="month" type="number" placeholder="Month" max="12" required>
-            <input name="day" type="number" placeholder="Day" max="31" required> 
+            <input class="date-input" name="date_read" type="date" placeholder="Year" max="" required>
         </div>
 
         <div class="review-text">
@@ -20,11 +18,11 @@
 
         <div class="review-stars">
             <!-- Javascript needed. Ex: If user checks checkbox 3 for a 3 star review, the previous checkboxes should get checked as-well -->
-            <input class="star" name="star" value="1" id="1" type="checkbox">
-            <input class="star" name="star" value="2" id="2" type="checkbox">
-            <input class="star" name="star" value="3" id="3" type="checkbox">
-            <input class="star" name="star" value="4" id="4" type="checkbox">
-            <input class="star" name="star" value="5" id="5" type="checkbox">
+            <input class="star" name="rating" value="1" id="1" type="checkbox">
+            <input class="star" name="rating" value="2" id="2" type="checkbox">
+            <input class="star" name="rating" value="3" id="3" type="checkbox">
+            <input class="star" name="rating" value="4" id="4" type="checkbox">
+            <input class="star" name="rating" value="5" id="5" type="checkbox">
         </div>
 
         <button type="submit">Create review!</button>

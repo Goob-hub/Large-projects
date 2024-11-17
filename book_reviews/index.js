@@ -24,44 +24,17 @@ const API_URL = "https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg";
 
 async function getBooksAndReviews() {
   const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating"
-  const response = await db.query(`SELECT ${dataToFetch} from books JOIN reviews ON review.id = books.id`);
-}
-
-function formatBookReviewData(reviewData) {
-  if(reviewData.day.length < 10) {
-    reviewData.day = "0" + reviewData.day;
-  }
-
-  if(reviewData.month.length === 1) {
-    reviewData.month = "0" + reviewData.month;
-  }
-
-  let date = `${reviewData.year}-${reviewData.month}-${reviewData.day}`;
-  let isRealDate = isDateValid(date);
-
-  if(isRealDate) {
-    return {
-      title: reviewData.title,
-      authors: reviewData.authors,
-      ibsn: reviewData.ibsn,
-      date_read: date
-    }
-  } else {
-    return "uh oh spaghetti-o"
-  }
-}
-
-function isDateValid(dateStr) {
-  return !isNaN(new Date(dateStr));
+  const response = await db.query(`SELECT ${dataToFetch} FROM books JOIN reviews ON books.id = reviews.id`);
+  return response.rows;
 }
 
 app.get("/", async (req, res) => {
   try {
-    //Fetch data from database
+    const dbData = await getBooksAndReviews();
   } catch (error) {
-    console.error(error.status);
+    console.error(error);
   }
-  res.render("index.ejs", { curWebPage: "index" });
+  res.render("index.ejs", { curWebPage: "index", bookReviews: dbData });
 });
 
 app.get("/create", async (req, res) => {
@@ -74,20 +47,21 @@ app.get("/create", async (req, res) => {
 });
 
 app.post("/create", async (req, res) => {
-  console.log(req.body);
-  const data = formatBookReviewData(req.body);
-  // try {
-  //   const response = await db.query("INSERT INTO books (title, authors, ibsn, date_read) VALUES($1, $2, $3, $4)", [data.title, data.authors, data.ibsn, data.date_read]);
+  let data = req.body;
+  data.rating = data.rating[data.rating.length - 1];
 
-  //   try {
-  //     //This is where we would handle inserting the review of said book from the user
-  //   } catch (error) {
-  //     console.error(error.status);
-  //   }
+  try {
+    const response = await db.query("INSERT INTO books (title, authors, ibsn, date_read) VALUES($1, $2, $3, $4)", [data.title, data.authors, data.ibsn, data.date_read]);
 
-  // } catch (error) {
-  //   console.error(error.status);
-  // }
+    try {
+      const response = await db.query("INSERT INTO reviews (review, rating) VALUES($1, $2)", [data.review, parseInt(data.rating)]);
+    } catch (error) {
+      console.error(error);
+    }
+
+  } catch (error) {
+    console.error(error);
+  }
 
   res.redirect("/")
 });
