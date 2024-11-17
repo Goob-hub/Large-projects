@@ -20,19 +20,17 @@
 
         <div class="review-stars">
             <!-- Javascript needed. Ex: If user checks checkbox 3 for a 3 star review, the previous checkboxes should get checked as-well -->
-            <input id="1" type="checkbox">
-            <input id="2" type="checkbox">
-            <input id="3" type="checkbox">
-            <input id="4" type="checkbox">
-            <input id="5" type="checkbox">
+            <input class="star" name="star" value="1" id="1" type="checkbox">
+            <input class="star" name="star" value="2" id="2" type="checkbox">
+            <input class="star" name="star" value="3" id="3" type="checkbox">
+            <input class="star" name="star" value="4" id="4" type="checkbox">
+            <input class="star" name="star" value="5" id="5" type="checkbox">
         </div>
 
         <button type="submit">Create review!</button>
     </form>
 </body>
 
-<script>
-    // Logic for checkboxes should go here
-</script>
+<script src="js/create_review.js"></script>
 
 </html>

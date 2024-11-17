@@ -74,19 +74,20 @@ app.get("/create", async (req, res) => {
 });
 
 app.post("/create", async (req, res) => {
+  console.log(req.body);
   const data = formatBookReviewData(req.body);
-  try {
-    const response = await db.query("INSERT INTO books (title, authors, ibsn, date_read) VALUES($1, $2, $3, $4)", [data.title, data.authors, data.ibsn, data.date_read]);
+  // try {
+  //   const response = await db.query("INSERT INTO books (title, authors, ibsn, date_read) VALUES($1, $2, $3, $4)", [data.title, data.authors, data.ibsn, data.date_read]);
 
-    try {
-      //This is where we would handle inserting the review of said book from the user
-    } catch (error) {
-      console.error(error.status);
-    }
+  //   try {
+  //     //This is where we would handle inserting the review of said book from the user
+  //   } catch (error) {
+  //     console.error(error.status);
+  //   }
 
-  } catch (error) {
-    console.error(error.status);
-  }
+  // } catch (error) {
+  //   console.error(error.status);
+  // }
 
   res.redirect("/")
 });
