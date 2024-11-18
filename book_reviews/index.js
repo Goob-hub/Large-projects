@@ -25,16 +25,32 @@ const API_URL = "https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg";
 async function getBooksAndReviews() {
   const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating"
   const response = await db.query(`SELECT ${dataToFetch} FROM books JOIN reviews ON books.id = reviews.id`);
-  return response.rows;
+
+  return formatDbDates(response.rows);
+}
+
+async function formatDbDates(bookReviewArray) {
+  bookReviewArray.forEach(bookReview => {
+    const date = bookReview.date_read;
+    const year = date.getFullYear();
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    const formattedDate = `${month}/${day}/${year}`; 
+
+    bookReview.date_read = formattedDate;
+  });
+
+  return bookReviewArray;
 }
 
 app.get("/", async (req, res) => {
   try {
     const dbData = await getBooksAndReviews();
+    res.render("index.ejs", { curWebPage: "index", bookReviews: dbData });
   } catch (error) {
     console.error(error);
+    res.render("index.ejs", { curWebPage: "index", error: "unable to fetch from database" });
   }
-  res.render("index.ejs", { curWebPage: "index", bookReviews: dbData });
 });
 
 app.get("/create", async (req, res) => {
