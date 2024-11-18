@@ -1,6 +1,6 @@
 <%- include("partials/header.ejs") %>
 <body>
-    <form action="create" method="post">
+    <form class="review-form" action="create" method="post">
         <div class="book-information">
             <input name="title" type="text" placeholder="Title" required>
             <input name="authors" type="text" placeholder="Authors" required>
@@ -8,7 +8,7 @@
         </div>
 
         <div class="date-input-container">
-            <h1>Date Read</h1>
+            <h3>Date Read</h3>
             <input class="date-input" name="date_read" type="date" placeholder="Year" max="" required>
         </div>
 
@@ -16,13 +16,30 @@
             <textarea name="review" placeholder="Type your review here!" required></textarea>
         </div>
 
-        <div class="review-stars">
+        <h3>Rating: <span id="current-rating">1</span>/5</h3>
+
+        <div class="review-stars-container">
             <!-- Javascript needed. Ex: If user checks checkbox 3 for a 3 star review, the previous checkboxes should get checked as-well -->
-            <input class="star" name="rating" value="1" id="1" type="checkbox">
-            <input class="star" name="rating" value="2" id="2" type="checkbox">
-            <input class="star" name="rating" value="3" id="3" type="checkbox">
-            <input class="star" name="rating" value="4" id="4" type="checkbox">
-            <input class="star" name="rating" value="5" id="5" type="checkbox">
+             <div class="checkbox-container">
+                <input class="checkbox-star" name="rating" value="1" id="1" type="checkbox" checked="true">
+                <div class="star"></div>
+             </div>
+             <div class="checkbox-container">
+                <input class="checkbox-star" name="rating" value="2" id="2" type="checkbox">
+                <div class="star"></div>
+             </div>
+             <div class="checkbox-container">
+                <input class="checkbox-star" name="rating" value="3" id="3" type="checkbox">
+                <div class="star"></div>
+             </div>
+             <div class="checkbox-container">
+                <input class="checkbox-star" name="rating" value="4" id="4" type="checkbox">
+                <div class="star"></div>
+             </div>
+             <div class="checkbox-container">
+                <input class="checkbox-star" name="rating" value="5" id="5" type="checkbox">
+                <div class="star"></div>
+             </div>
         </div>
 
         <button type="submit">Create review!</button>

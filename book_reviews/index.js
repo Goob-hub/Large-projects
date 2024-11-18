@@ -29,6 +29,7 @@ async function getBooksAndReviews() {
   return formatDbDates(response.rows);
 }
 
+//DO THIS IN BOOK REVIEW PARTIAL WHERE BOOK INFO IS DISPLAYED, IT WILL BE MORE EFFICIENT
 async function formatDbDates(bookReviewArray) {
   bookReviewArray.forEach(bookReview => {
     const date = bookReview.date_read;

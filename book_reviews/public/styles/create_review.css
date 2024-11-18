@@ -1,3 +1,55 @@
 /* body {
     background-color: red;
 } */
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.review-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.review-stars-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.checkbox-star {
+    opacity: 0;
+    height: 40px;
+    width: 40px;
+}
+
+.checkbox-star:hover {
+    cursor: pointer;
+}
+
+.checkbox-container {
+    position: relative;
+}
+
+.star {
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    height: 45px;
+    width: 45px;
+    background-color: gray;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: -1;
+    offset: 10px;
+}
+
+.checkbox-star:checked + .star {
+    background-color: gold;
+}
