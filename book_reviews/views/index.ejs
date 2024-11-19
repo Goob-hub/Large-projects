@@ -1,13 +1,11 @@
 <%- include("partials/header.ejs") %>
 <body>
+    <%- include("partials/navbar.ejs") %>
     <% if(locals.bookReviews) {%>
         <%- include("partials/book_review.ejs", { bookReviews: bookReviews }) %>    
     <% } else {%>
         <h1>bruh why</h1>
     <% } %>
-
-    <form action="create" method="get">
-        <button type="submit">Make your own review!</button>
-    </form>
 </body>
+<script src="js/navbar.js"></script>
 </html>

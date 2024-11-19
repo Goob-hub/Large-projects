@@ -22,6 +22,8 @@ app.use(express.static("public"));
 
 const API_URL = "https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg";
 
+let currentWebPage = "index";
+
 async function getBooksAndReviews() {
   const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating"
   const response = await db.query(`SELECT ${dataToFetch} FROM books JOIN reviews ON books.id = reviews.id`);
@@ -45,22 +47,19 @@ async function formatDbDates(bookReviewArray) {
 }
 
 app.get("/", async (req, res) => {
+  currentWebPage = "index"
   try {
     const dbData = await getBooksAndReviews();
-    res.render("index.ejs", { curWebPage: "index", bookReviews: dbData });
+    res.render("index.ejs", { curWebPage: currentWebPage, bookReviews: dbData });
   } catch (error) {
     console.error(error);
-    res.render("index.ejs", { curWebPage: "index", error: "unable to fetch from database" });
+    res.render("index.ejs", { curWebPage: currentWebPage, error: "unable to fetch from database" });
   }
 });
 
 app.get("/create", async (req, res) => {
-  try {
-
-  } catch (error) {
-    console.error(error.status);
-  }
-  res.render("create_review.ejs", { curWebPage: "create_review" })
+  currentWebPage = "create_review";
+  res.render("create_review.ejs", { curWebPage: currentWebPage });
 });
 
 app.post("/create", async (req, res) => {
