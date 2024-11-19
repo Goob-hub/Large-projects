@@ -15,10 +15,11 @@
         </form>
     </div>
     <div class="sort-method-container">
-        <select name="sort_method">
-            <option value="alphabet_asc">Alphabetical order</option>
-            <option value="rating_asc">Highest rated</option>
-            <option value="rating_desc">Lowest rated</option>
+        <label for="sort-menu">Sort reviews:</label>
+        <select id="sort-menu" name="sort_method">
+            <option value="rating_desc" selected>Highest rated</option>
+            <option value="rating_asc">Lowest rated</option>
+            <option value="alphabet_desc">Alphabetical order</option>
             <option value=""></option>
         </select>
     </div>

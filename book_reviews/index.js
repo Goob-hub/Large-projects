@@ -22,7 +22,7 @@ app.use(express.static("public"));
 
 const API_URL = "https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg";
 
-let currentWebPage = "index";
+let currentWebPage = "home";
 
 async function getBooksAndReviews() {
   const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating"
@@ -47,13 +47,13 @@ async function formatDbDates(bookReviewArray) {
 }
 
 app.get("/", async (req, res) => {
-  currentWebPage = "index"
+  currentWebPage = "home"
   try {
     const dbData = await getBooksAndReviews();
-    res.render("index.ejs", { curWebPage: currentWebPage, bookReviews: dbData });
+    res.render("home.ejs", { curWebPage: currentWebPage, bookReviews: dbData });
   } catch (error) {
     console.error(error);
-    res.render("index.ejs", { curWebPage: currentWebPage, error: "unable to fetch from database" });
+    res.render("home.ejs", { curWebPage: currentWebPage, error: "unable to fetch from database" });
   }
 });
 
