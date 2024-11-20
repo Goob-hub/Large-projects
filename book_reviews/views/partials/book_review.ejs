@@ -1,13 +1,14 @@
 <% if(locals.bookReviews) {%>
     <% for(const bookReview of bookReviews) {%>
         <div class="book-review featured-review">
-            <img src="https://covers.openlibrary.org/b/isbn/<% bookReview.ibsn %>-S.jpg" alt="">
-            <h1><%= bookReview.title %></h1>
-            <p><%= bookReview.date_read %></p>
-            <p><%= bookReview.authors %></p>
-            <p><%= bookReview.review %></p>
+            <h1 ><span id="title"><%= bookReview.title %></span></h1>
+            <img id="cover" src="https://covers.openlibrary.org/b/isbn/<%= bookReview.ibsn %>-M.jpg" alt="">
+            <p><span id="date-read"><%= bookReview.date_read %></span></p>
+            <p><span id="authors"><%= bookReview.authors %></span></p>
+            <p><span id="review"></span><%= bookReview.review %></p>
+
             <!-- Make actual stars appear in html for more visual prettyness :D -->
-            <p><%= bookReview.rating %> / 5 stars</p>
+            <p><span id="rating"><%= bookReview.rating %></span> / 5 stars</p>
         </div>
     <% } %>
 <% } else {%>
