@@ -2,11 +2,13 @@
 <body>
     <%- include("partials/navbar.ejs") %>
     <% if(locals.bookReviews) {%>
-        <%- include("partials/book_review.ejs", { bookReviews: bookReviews }) %>    
+        <div class="book-review-container">
+            <%- include("partials/book_review.ejs", { bookReviews: bookReviews }) %>    
+        </div>
     <% } else {%>
         <h1>bruh why</h1>
     <% } %>
 </body>
 <script src="js/navbar.js"></script>
-<script src="js/home.js"></script>
+<script src="js/sort_reviews.js"></script>
 </html>
