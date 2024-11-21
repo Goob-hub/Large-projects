@@ -17,13 +17,13 @@ function sortBookReviews() {
             reviews = reviews.sort((a, b) => {
                 return b.rating - a.rating;
             });
-            changeReviewHtml(reviews);
+            changeReviewHtml(reviews, sortingMethod);
             break;
         case "lowest_rated":
             reviews = reviews.sort((a, b) => {
                 return a.rating - b.rating;
             });
-            changeReviewHtml(reviews);
+            changeReviewHtml(reviews, sortingMethod);
             break;
         default:
             console.error("Could not sort book reviews on this page");
@@ -31,7 +31,7 @@ function sortBookReviews() {
     }
 }
 
-function changeReviewHtml(sortedReviewsArray) {
+function changeReviewHtml(sortedReviewsArray, sortingMethod) {
     if(!sortedReviewsArray) {
         console.error("Did not recieve sorted html in the changeReviewHtml function in sort_reviews.js!");
         return;
@@ -50,7 +50,7 @@ function changeReviewHtml(sortedReviewsArray) {
     });
 
     //Injects html of each review in order based on selected sort method
-    reviews.forEach(review => {
+    sortedReviewsArray.forEach(review => {
         bookReviewContainer.innerHTML += review.html
     });
 }
