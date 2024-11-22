@@ -5,7 +5,7 @@ import axios from "axios";
 import pg from "pg";
 
 const app = express();
-const port = 4000;
+const port = 3000;
 
 const db = new pg.Client({
   user: process.env.DB_USER,
@@ -20,16 +20,18 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-// const API_URL = "https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg";
+const API_URL = "https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg";
+
+let currentWebPage = "home";
 
 async function getBooksAndReviews() {
   const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating"
   const response = await db.query(`SELECT ${dataToFetch} FROM books JOIN reviews ON books.id = reviews.id`);
 
-  return formatReviewDates(response.rows);
+  return formatDbDates(response.rows);
 }
 
-async function formatReviewDates(bookReviewArray) {
+async function formatDbDates(bookReviewArray) {
   bookReviewArray.forEach(bookReview => {
     const date = bookReview.date_read;
     const year = date.getFullYear();
@@ -43,13 +45,14 @@ async function formatReviewDates(bookReviewArray) {
   return bookReviewArray;
 }
 
-app.get("/reviews", async (req, res) => {
+app.get("/", async (req, res) => {
+  currentWebPage = "home"
   try {
     const dbData = await getBooksAndReviews();
-    res.json(dbData)
+    res.render("home.ejs", { curWebPage: currentWebPage, bookReviews: dbData });
   } catch (error) {
     console.error(error);
-    res.json({error: "Could not fetch book reviews from database :("});
+    res.render("home.ejs", { curWebPage: currentWebPage, error: "unable to fetch from database" });
   }
 });
 
