@@ -1,6 +1,7 @@
 import 'dotenv/config';
 import express from "express";
 import bodyParser from "body-parser";
+import axios from "axios";
 import pg from "pg";
 
 const app = express();
@@ -42,34 +43,39 @@ async function formatReviewDates(bookReviewArray) {
   return bookReviewArray;
 }
 
-app.get("/review", async (req, res) => {
+app.get("/reviews", async (req, res) => {
   try {
     const dbData = await getBooksAndReviews();
-    res.json(dbData);
+    res.json(dbData)
   } catch (error) {
     console.error(error);
     res.json({error: "Could not fetch book reviews from database :("});
   }
 });
 
-app.post("/review", async (req, res) => {
-  const bookReview = req.body;
+app.get("/create", async (req, res) => {
+  currentWebPage = "create_review";
+  res.render("create_review.ejs", { curWebPage: currentWebPage });
+});
+
+app.post("/create", async (req, res) => {
+  let data = req.body;
+  data.rating = data.rating[data.rating.length - 1];
 
   try {
-    const response = await db.query("INSERT INTO books (title, authors, ibsn, date_read) VALUES($1, $2, $3, $4)", [bookReview.title, bookReview.authors, bookReview.ibsn, bookReview.date_read]);
+    const response = await db.query("INSERT INTO books (title, authors, ibsn, date_read) VALUES($1, $2, $3, $4)", [data.title, data.authors, data.ibsn, data.date_read]);
 
     try {
-      const response = await db.query("INSERT INTO reviews (review, rating) VALUES($1, $2)", [bookReview.review, parseInt(bookReview.rating)]);
-      res.json("Successfully inserted all data into database!");
+      const response = await db.query("INSERT INTO reviews (review, rating) VALUES($1, $2)", [data.review, parseInt(data.rating)]);
     } catch (error) {
       console.error(error);
-      res.json("There was an error with inserting review data into review table in database :(");
     }
 
   } catch (error) {
     console.error(error);
-    res.json("There was an error with inserting book data into book table in database :(");
   }
+
+  res.redirect("/")
 });
 
 app.listen(port, () => {
