@@ -2,7 +2,7 @@
 <body>
     <%- include("partials/navbar.ejs") %>
     <% if(locals.bookReviews) {%>
-        <div class="book-review-container featured">
+        <div class="book-review-container">
             <%- include("partials/book_review.ejs", { bookReviews: bookReviews }) %>    
         </div>
     <% } else {%>

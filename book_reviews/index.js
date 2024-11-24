@@ -19,7 +19,7 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-let currentWebPage = "home";
+let curWebPage = "home";
 
 async function getFeaturedBookReviews() {
   const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
@@ -28,7 +28,14 @@ async function getFeaturedBookReviews() {
   return formatDbDates(response.rows);
 }
 
-async function formatDbDates(bookReviewArray) {
+async function getAllBookReviews() {
+  const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
+  const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.id = reviews.id`);
+
+  return formatDbDates(response.rows);
+}
+
+function formatDbDates(bookReviewArray) {
   bookReviewArray.forEach(bookReview => {
     const date = bookReview.date_read;
     const year = date.getFullYear();
@@ -43,19 +50,30 @@ async function formatDbDates(bookReviewArray) {
 }
 
 app.get("/", async (req, res) => {
-  currentWebPage = "home"
+  curWebPage = "home"
   try {
-    const dbData = await getFeaturedBookReviews();
-    res.render("home.ejs", { curWebPage: currentWebPage, bookReviews: dbData });
+    const bookReviews = await getFeaturedBookReviews();
+    res.render("home.ejs", { curWebPage: curWebPage, bookReviews: bookReviews });
   } catch (error) {
     console.error(error);
-    res.render("home.ejs", { curWebPage: currentWebPage, error: "unable to fetch from database" });
+    res.render("home.ejs", { curWebPage: curWebPage, error: "unable to fetch featured book reviews from database" });
+  }
+});
+
+app.get("/full-list", async (req, res) => {
+  curWebPage = "full_list";
+  try {
+    const bookReviews = await getAllBookReviews();
+    res.render("full_list.ejs", { curWebPage: curWebPage, bookReviews: bookReviews })
+  } catch (error) {
+    console.error(error);
+    res.render("full_list.ejs", { curWebPage: curWebPage, error: "unable to fetch all book reviews from database" });
   }
 });
 
 app.get("/create", async (req, res) => {
-  currentWebPage = "create_review";
-  res.render("create_review.ejs", { curWebPage: currentWebPage });
+  curWebPage = "create_review";
+  res.render("create_review.ejs", { curWebPage: curWebPage });
 });
 
 app.post("/create", async (req, res) => {
