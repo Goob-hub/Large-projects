@@ -1,7 +1,6 @@
 import 'dotenv/config';
 import express from "express";
 import bodyParser from "body-parser";
-import axios from "axios";
 import pg from "pg";
 
 const app = express();
@@ -20,13 +19,11 @@ db.connect();
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 
-const API_URL = "https://covers.openlibrary.org/b/isbn/9780385533225-S.jpg";
-
 let currentWebPage = "home";
 
-async function getBooksAndReviews() {
-  const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating"
-  const response = await db.query(`SELECT ${dataToFetch} FROM books JOIN reviews ON books.id = reviews.id`);
+async function getFeaturedBookReviews() {
+  const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
+  const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.id = reviews.id WHERE reviews.featured = true`);
 
   return formatDbDates(response.rows);
 }
@@ -48,7 +45,7 @@ async function formatDbDates(bookReviewArray) {
 app.get("/", async (req, res) => {
   currentWebPage = "home"
   try {
-    const dbData = await getBooksAndReviews();
+    const dbData = await getFeaturedBookReviews();
     res.render("home.ejs", { curWebPage: currentWebPage, bookReviews: dbData });
   } catch (error) {
     console.error(error);
@@ -69,7 +66,7 @@ app.post("/create", async (req, res) => {
     const response = await db.query("INSERT INTO books (title, authors, ibsn, date_read) VALUES($1, $2, $3, $4)", [data.title, data.authors, data.ibsn, data.date_read]);
 
     try {
-      const response = await db.query("INSERT INTO reviews (review, rating) VALUES($1, $2)", [data.review, parseInt(data.rating)]);
+      const response = await db.query("INSERT INTO reviews (review, rating) VALUES($1, $2)", [data.review, parseInt(data.rating), Boolean.valueOf(data.featured)]);
     } catch (error) {
       console.error(error);
     }
@@ -78,7 +75,7 @@ app.post("/create", async (req, res) => {
     console.error(error);
   }
 
-  res.redirect("/")
+  res.redirect("/");
 });
 
 app.listen(port, () => {

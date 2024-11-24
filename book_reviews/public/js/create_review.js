@@ -1,3 +1,4 @@
+let featuredCheckBox = document.querySelector(".featured-checkbox");
 let checkboxes = document.querySelectorAll(".checkbox-star");
 let starRating = document.querySelector("#current-rating");
 let dateInput = document.querySelector(".date-input");
@@ -23,8 +24,18 @@ function updateStars(checkbox) {
     });
 }
 
+featuredCheckBox.addEventListener("change", e => {
+    let checkbox = e.target;
+
+    if(featuredCheckBox.checked) {
+        featuredCheckBox.value = true;
+    } else {
+        featuredCheckBox.value = false;
+    }
+});
+
 checkboxes.forEach(checkbox => {
-    checkbox.addEventListener("change", (e) => {
+    checkbox.addEventListener("change", e => {
         let el = e.target;
         updateStars(el);
     });

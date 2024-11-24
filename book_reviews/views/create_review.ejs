@@ -2,17 +2,23 @@
 <body>
     <form class="review-form" autocomplete="off" action="create" method="post">
         <div class="book-information">
+            <label for="title">Book title:</label>
             <input name="title" type="text" placeholder="Title" required>
+
+            <label for="authors">Authors:</label>
             <input name="authors" type="text" placeholder="Authors" required>
+
+            <label for="ibsn">IBSN:</label>
             <input name="ibsn" type="number" placeholder="IBSN" required>
         </div>
 
         <div class="date-input-container">
-            <h3>Date Read</h3>
+            <label for="date_read">Date read:</label>
             <input class="date-input" name="date_read" type="date" placeholder="Year" max="" required>
         </div>
 
         <div class="review-text">
+            <label for="review">Your review:</label>
             <textarea name="review" placeholder="Type your review here!" required></textarea>
         </div>
 
@@ -40,6 +46,11 @@
                 <input class="checkbox-star" name="rating" value="5" id="5" type="checkbox">
                 <div class="star"></div>
              </div>
+        </div>
+
+        <div>
+            <label for="featured">Feature this review:</label>
+            <input class="featured-checkbox" name="featured" type="checkbox" value="false">
         </div>
 
         <button type="submit">Create review!</button>
