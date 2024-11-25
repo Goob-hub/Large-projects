@@ -1,0 +1,43 @@
+.dm-sans-large-bold {
+    font-family: "DM Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-size: 32px;
+    font-weight: bolder;
+    font-style: normal;
+}
+
+.noto-sans-paragraph {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 16px;
+    font-variation-settings: "wdth" 100;
+}
+
+.noto-sans-title {
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: bold;
+    font-style: normal;
+    font-size: 24px;
+    font-variation-settings: "wdth" 100;
+}
+
+.flex-box-row {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.flex-box-column {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.hidden {
+    visibility: hidden;
+}

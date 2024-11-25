@@ -1,0 +1,74 @@
+#nav-btn {
+    position: fixed;
+    top: 10px;
+    left: 10px;
+    width: 60px;
+    height: 45px;
+    cursor: pointer;
+    transform: rotate(0deg);
+    transition: .5s ease-in-out;
+}
+
+#nav-bar {
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0px;
+    left: 0px;
+    background-color: black;
+}
+
+#nav-bar * {
+    color: white;
+}
+
+#nav-btn span {
+    display: block;
+    position: absolute;
+    height: 9px;
+    width: 100%;
+    background: #d31a1a;
+    border-radius: 9px;
+    opacity: 1;
+    left: 0;
+    transform: rotate(0deg);
+    transition: .25s ease-in-out;
+}
+
+#nav-btn span:nth-child(1) {
+    top: 0px;
+    transform-origin: left center;
+}
+
+#nav-btn span:nth-child(2) {
+    top: 18px;
+    transform-origin: left center;
+}
+
+#nav-btn span:nth-child(3) {
+    top: 36px;
+    transform-origin: left center;
+}
+
+#nav-btn.open span:nth-child(1) {
+    transform: rotate(45deg);
+    top: -3px;
+    left: 8px;
+}
+
+#nav-btn.open span:nth-child(2) {
+    width: 0%;
+    opacity: 0;
+}
+
+#nav-btn.open span:nth-child(3) {
+    transform: rotate(-45deg);
+    top: 39px;
+    left: 8px;
+}
+
+.nav-option {
+    background: none;
+    margin: 5px;
+    border: none;
+}

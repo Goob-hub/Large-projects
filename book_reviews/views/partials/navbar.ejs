@@ -1,24 +1,30 @@
-<div class="nav-bar">
-    <div class="featured-container">
+<div id="nav-btn">
+    <span></span>
+    <span></span>
+    <span></span>
+</div>
+
+<div class="flex-box-column hidden" id="nav-bar">
+    <div class="nav-option " id="featured-container">
         <form action="/" method="get">
-            <button type="submit">Home</button>
+            <button type="submit" class="dm-sans-large-bold nav-option">Home</button>
         </form>
     </div>
-    <div class="full-list-container">
+    <div class="nav-option " id="full-list-container">
         <form action="/full-list" method="get">
-            <button type="submit">Full list</button>
+            <button type="submit" class="dm-sans-large-bold nav-option">Full list</button>
         </form>
     </div>
-    <div class="create-container">
+    <div class="nav-option " id="create-container">
         <form action="create" method="get">
-            <button type="submit">Create review</button>
+            <button type="submit" class="dm-sans-large-bold nav-option">Create review</button>
         </form>
     </div>
-    <div class="sort-method-container">
-        <label for="sort-menu">Sort reviews:</label>
+    <div class="nav-option " id="sort-method-container">
+        <label for="sort-menu" class="dm-sans-large-bold">Sort reviews:</label>
         <select id="sort-menu" name="sort_method">
-            <option value="highest_rated">Highest rated</option>
-            <option value="lowest_rated">Lowest rated</option>
+            <option value="highest_rated" class="dm-sans-large-bold">Highest rated</option>
+            <option value="lowest_rated" class="dm-sans-large-bold">Lowest rated</option>
         </select>
     </div>
 </div>
