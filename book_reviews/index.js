@@ -53,7 +53,7 @@ app.get("/", async (req, res) => {
   curWebPage = "home"
   try {
     const bookReviews = await getFeaturedBookReviews();
-    res.render("home.ejs", { curWebPage: curWebPage, bookReviews: bookReviews });
+    res.render("home.ejs", { curWebPage: curWebPage, bookReviews: bookReviews, onlyFeatured: true });
   } catch (error) {
     console.error(error);
     res.render("home.ejs", { curWebPage: curWebPage, error: "unable to fetch featured book reviews from database" });
@@ -64,7 +64,7 @@ app.get("/full-list", async (req, res) => {
   curWebPage = "full_list";
   try {
     const bookReviews = await getAllBookReviews();
-    res.render("full_list.ejs", { curWebPage: curWebPage, bookReviews: bookReviews })
+    res.render("full_list.ejs", { curWebPage: curWebPage, bookReviews: bookReviews, onlyFeatured: false })
   } catch (error) {
     console.error(error);
     res.render("full_list.ejs", { curWebPage: curWebPage, error: "unable to fetch all book reviews from database" });

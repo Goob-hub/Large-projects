@@ -1,15 +1,44 @@
 <% if(locals.bookReviews) {%>
-    <% for(const bookReview of bookReviews) {%>
-        <div class="book-review featured-review">
-            <h1 ><span id="title"><%= bookReview.title %></span></h1>
-            <img id="cover" src="https://covers.openlibrary.org/b/isbn/<%= bookReview.ibsn %>-M.jpg" alt="">
-            <p><span id="date-read"><%= bookReview.date_read %></span></p>
-            <p><span id="authors"><%= bookReview.authors %></span></p>
-            <p><span id="review"></span><%= bookReview.review %></p>
+    <% if(locals.onlyFeatured) {%> 
+        <% for(const bookReview of bookReviews) {%>
+            <div class="book-review featured flex-box-row">
+                
+                <div class="cover-container">
+                    <img id="cover" src="https://covers.openlibrary.org/b/isbn/<%= bookReview.ibsn %>-L.jpg" alt="">
+                </div>
 
-            <!-- Make actual stars appear in html for more visual prettyness :D -->
-            <p><span id="rating"><%= bookReview.rating %></span> / 5 stars</p>
-        </div>
+                <div class="info-container flex-box-column">
+                    <p><span id="authors" class="noto-sans-paragraph"><%= bookReview.authors %></span></p>
+                    <h1 ><span id="title" class="noto-sans-title"><%= bookReview.title %></span></h1>
+                    <p class="noto-sans-paragraph"><span id="rating" class="noto-sans-paragraph" ><%= bookReview.rating %></span> / 5 stars</p>
+
+                    <div class="stars-container flex-box-row">
+                        <% let count = parseInt(bookReview.rating) %>
+                        <% for (let i = 0; i < 5; i++) { %>
+                            <% if(count !== 0) { count--; %>
+                                <div class="star filled"></div>
+                            <% } else { %>
+                                <div class="star empty"></div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                    <button>read review</button>
+                </div>
+            </div>
+        <% } %>
+    <% } else { %>
+        <% for(const bookReview of bookReviews) {%>
+            <div class="book-review">
+                <h1 ><span id="title"><%= bookReview.title %></span></h1>
+                <img id="cover" src="https://covers.openlibrary.org/b/isbn/<%= bookReview.ibsn %>-M.jpg" alt="">
+                <p><span id="date-read"><%= bookReview.date_read %></span></p>
+                <p><span id="authors"><%= bookReview.authors %></span></p>
+                <p><span id="review"></span><%= bookReview.review %></p>
+
+                <!-- Make actual stars appear in html for more visual prettyness :D -->
+                <p><span id="rating"><%= bookReview.rating %></span> / 5 stars</p>
+            </div>
+        <% } %>
     <% } %>
 <% } else {%>
     <h1>WTF</h1>

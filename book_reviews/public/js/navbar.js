@@ -3,7 +3,6 @@ let navMenu = document.querySelector("#nav-menu");
 
 navBtn.addEventListener("click", e => {
     let openTimeout = 300;
-    let closeTimeout = 50;
 
     navBtn.classList.toggle("open");
     navMenu.classList.toggle("open");
@@ -11,7 +10,7 @@ navBtn.addEventListener("click", e => {
 
     if(navBtn.classList.contains("open")) {
         for (const htmlEl of navMenu.children) {
-            setTimeout((timeout) => {
+            setTimeout(() => {
                 htmlEl.classList.toggle("off");
             }, openTimeout += 100);
         }

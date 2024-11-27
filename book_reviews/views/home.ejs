@@ -1,8 +1,9 @@
 <%- include("partials/header.ejs") %>
-<body>
+<body class="flex-box-column">
     <%- include("partials/navbar.ejs") %>
+    <h1 class="noto-sans-title header">Featured</h1>
     <% if(locals.bookReviews) {%>
-        <div class="book-review-container featured">
+        <div class="book-review-container featured flex-box-column">
             <%- include("partials/book_review.ejs", { bookReviews: bookReviews }) %>    
         </div>
     <% } else {%>
