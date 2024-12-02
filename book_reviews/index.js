@@ -22,15 +22,22 @@ app.use(express.static("public"));
 let curWebPage = "home";
 
 async function getFeaturedBookReviews() {
-  const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
+  const dataToFetch = "books.id, books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
   const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.id = reviews.id WHERE reviews.featured = true`);
 
   return formatDbDates(response.rows);
 }
 
 async function getAllBookReviews() {
-  const dataToFetch = "books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
+  const dataToFetch = "books.id, books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
   const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.id = reviews.id`);
+
+  return formatDbDates(response.rows);
+}
+
+async function getBookReviewById(id) {
+  const dataToFetch = "books.id, books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
+  const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.id = reviews.id WHERE books.id = ${id}`);
 
   return formatDbDates(response.rows);
 }
@@ -68,6 +75,20 @@ app.get("/full-list", async (req, res) => {
   } catch (error) {
     console.error(error);
     res.render("full_list.ejs", { curWebPage: curWebPage, error: "unable to fetch all book reviews from database" });
+  }
+});
+
+app.get("/review", async (req, res) => {
+  curWebPage = "read_review"; 
+  const reviewId = req.query.id;
+
+  try {
+    const bookReview = await getBookReviewById(reviewId);
+    res.render("read_review.ejs", { curWebPage: curWebPage, bookReview: bookReview[0] });
+    
+  } catch (error) {
+    console.error(error);
+    res.render("read_review.ejs", { error: "Could not fetch book review by id." });
   }
 });
 

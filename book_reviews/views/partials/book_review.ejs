@@ -10,7 +10,7 @@
                 <div class="info-container flex-box-column">
                     <p><span id="authors" class="noto-sans-paragraph"><%= bookReview.authors %></span></p>
                     <h1 ><span id="title" class="noto-sans-title"><%= bookReview.title %></span></h1>
-                    <p class="noto-sans-paragraph"><span id="rating" class="noto-sans-paragraph" ><%= bookReview.rating %></span> / 5 stars</p>
+                    <p class="noto-sans-paragraph">My rating: <span id="rating" class="noto-sans-paragraph" ><%= bookReview.rating %></span> / 5 stars</p>
 
                     <div class="stars-container flex-box-row">
                         <% let count = parseInt(bookReview.rating) %>
@@ -22,7 +22,10 @@
                             <% } %>
                         <% } %>
                     </div>
-                    <button>read review</button>
+                    <form action="/review" method="get">
+                        <input type="hidden" name="id" value="<%= bookReview.id %>">
+                        <button type="submit">Read review</button>
+                    </form>
                 </div>
             </div>
         <% } %>
