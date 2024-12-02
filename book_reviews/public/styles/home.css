@@ -18,6 +18,11 @@ body {
     width: 45px;
     z-index: -1;
     offset: 10px;
+    margin: 10px;
+}
+
+.stars-container {
+    margin: 10px;
 }
 
 .empty {
@@ -34,8 +39,25 @@ body {
 
 .header {
     font-size: 40px;
+    margin-top: 20px;
+    margin-bottom: 0;
 }
 
-.star {
-    margin: 10px;
+.read-review-btn {
+    padding: 10px 20px 10px 20px;
+    margin: 0;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    background-color: #a7312e;
+    cursor: pointer;
+}
+
+.read-review-form {
+    margin-top: 10px;
+}
+
+.underline {
+    width: 100%;
+    border: solid #a7312e 2px;
 }
