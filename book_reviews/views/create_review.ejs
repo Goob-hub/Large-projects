@@ -1,31 +1,37 @@
 <%- include("partials/header.ejs") %>
-<body>
+<body class="flex-box-column">
     <form class="review-form" autocomplete="off" action="create" method="post">
-        <div class="book-information">
-            <label for="title">Book title:</label>
-            <input name="title" type="text" placeholder="Title" required>
+        <div class="book-information flex-box-row">
+            <div class="mb-3">
+                <label for="title" class="form-label h4 white-txt">Book title:</label>
+                <input class="form-control form-control-lg" name="title" type="text" placeholder="Title" required>
+            </div>
 
-            <label for="authors">Authors:</label>
-            <input name="authors" type="text" placeholder="Authors" required>
+            <div class="mb-3">
+                <label for="authors" class="form-label h4 white-txt">Authors:</label>
+                <input name="authors" class="form-control form-control-lg" type="text"  placeholder="Authors" required>
+            </div>
 
-            <label for="ibsn">IBSN:</label>
-            <input name="ibsn" type="number" placeholder="IBSN" required>
+            <div class="mb-3">
+                <label for="ibsn" class="form-label h4 white-txt">IBSN:</label>
+                <input name="ibsn" class="form-control form-control-lg" type="number"  placeholder="IBSN" required>
+            </div>
+            
+            <div class="date-input-container mb-3">
+                <label for="date_read" class="white-txt form-label h4">Date read:</label>
+                <input class="date-input form-control form-control-lg" name="date_read" type="date" placeholder="Year" max="" required>
+            </div>
         </div>
 
-        <div class="date-input-container">
-            <label for="date_read">Date read:</label>
-            <input class="date-input" name="date_read" type="date" placeholder="Year" max="" required>
-        </div>
 
         <div class="review-text">
-            <label for="review">Your review:</label>
-            <textarea name="review" placeholder="Type your review here!" required></textarea>
+            <label for="review" class="white-txt form-label h4">Your review:</label>
+            <textarea name="review" style="resize: none;" class="form-control" cols="40" rows="5" placeholder="Type your review here!" required></textarea>
         </div>
 
-        <h3>Rating: <span id="current-rating">1</span>/5</h3>
+        <h3 class="white-txt">Rating: <span id="current-rating" class="white-txt">1</span>/5</h3>
 
         <div class="review-stars-container">
-            <!-- Javascript needed. Ex: If user checks checkbox 3 for a 3 star review, the previous checkboxes should get checked as-well -->
              <div class="checkbox-container">
                 <input class="checkbox-star" name="rating" value="1" id="1" type="checkbox" checked="true">
                 <div class="star"></div>
@@ -49,7 +55,7 @@
         </div>
 
         <div>
-            <label for="featured">Feature this review:</label>
+            <label for="featured" class="white-txt">Feature this review:</label>
             <input class="featured-checkbox" name="featured" type="checkbox" value="false">
         </div>
 

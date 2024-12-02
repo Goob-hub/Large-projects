@@ -2,10 +2,11 @@ import 'dotenv/config';
 import express from "express";
 import bodyParser from "body-parser";
 import pg from "pg";
+import path from 'path';
+import { fileURLToPath } from "url";
 
-const app = express();
-const port = 3000;
-
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 const db = new pg.Client({
   user: process.env.DB_USER,
   host: process.env.DB_HOST,
@@ -13,9 +14,12 @@ const db = new pg.Client({
   password: process.env.DB_PASSWORD,
   port: parseInt(process.env.DB_PORT),
 });
+const app = express();
+const port = 3000;
 
 db.connect();
 
+app.use(express.static(path.join(__dirname, "node_modules/bootstrap/dist/")));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static("public"));
 

@@ -38,6 +38,11 @@
     align-items: center;
 }
 
+.underline {
+    width: 100%;
+    border: solid #a7312e 2px;
+}
+
 .hidden {
     visibility: hidden;
 }

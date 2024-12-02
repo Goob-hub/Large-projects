@@ -7,6 +7,8 @@ body {
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    background-color: black;
+    min-height: 100vh;
 }
 
 .review-form {
@@ -24,6 +26,18 @@ body {
     padding: 20px;
 }
 
+.form-control:focus {
+    border-color: #a7312e;
+}
+
+.mb-3 {
+    margin: 10px;
+}
+
+.form-label {
+    border-bottom: solid #a7312e 2px;
+}
+
 .checkbox-star {
     opacity: 0;
     height: 40px;
@@ -36,6 +50,7 @@ body {
 
 .checkbox-container {
     position: relative;
+    margin: 10px;
 }
 
 .star {
@@ -52,4 +67,8 @@ body {
 
 .checkbox-star:checked + .star {
     background-color: gold;
+}
+
+.white-txt {
+    color: white;
 }
