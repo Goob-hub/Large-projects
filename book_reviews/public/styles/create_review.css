@@ -68,7 +68,3 @@ body {
 .checkbox-star:checked + .star {
     background-color: gold;
 }
-
-.white-txt {
-    color: white;
-}

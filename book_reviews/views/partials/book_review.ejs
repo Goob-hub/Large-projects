@@ -2,7 +2,6 @@
     <% if(locals.onlyFeatured) {%> 
         <% for(const bookReview of bookReviews) {%>
             <div class="book-review featured flex-box-row">
-                
                 <div class="cover-container">
                     <img id="cover" src="https://covers.openlibrary.org/b/isbn/<%= bookReview.ibsn %>-L.jpg" alt="">
                 </div>
@@ -31,15 +30,17 @@
         <% } %>
     <% } else { %>
         <% for(const bookReview of bookReviews) {%>
-            <div class="book-review">
-                <h1 ><span id="title"><%= bookReview.title %></span></h1>
+            <div class="book-review flex-box-column">
+                <p class="hidden" id="rating"><%= bookReview.rating %></p>
+                <div id="book-title-container">
+                    <h2 class="noto-sans white-txt" id="book-title"><%= bookReview.title %></h2>
+                    <div class="underline"></div>
+                </div>
                 <img id="cover" src="https://covers.openlibrary.org/b/isbn/<%= bookReview.ibsn %>-M.jpg" alt="">
-                <p><span id="date-read"><%= bookReview.date_read %></span></p>
-                <p><span id="authors"><%= bookReview.authors %></span></p>
-                <p><span id="review"></span><%= bookReview.review %></p>
-
-                <!-- Make actual stars appear in html for more visual prettyness :D -->
-                <p><span id="rating"><%= bookReview.rating %></span> / 5 stars</p>
+                <form action="/review" method="get" class="read-review-form">
+                    <input type="hidden" name="id" value="<%= bookReview.id %>">
+                    <button type="submit" class="read-review-btn white-txt">Read review</button>
+                </form>
             </div>
         <% } %>
     <% } %>

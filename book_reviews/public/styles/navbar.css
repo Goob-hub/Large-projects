@@ -1,6 +1,6 @@
 #nav-btn {
     position: fixed;
-    top: 5%;
+    top: 4%;
     left: 5%;
     width: 60px;
     height: 45px;
@@ -27,7 +27,7 @@
 #nav-btn span {
     display: block;
     position: absolute;
-    height: 9px;
+    height: 7px;
     width: 100%;
     background: #d31a1a;
     border-radius: 9px;

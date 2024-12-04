@@ -1,0 +1,47 @@
+body {
+    background-color: black;
+}
+
+#cover {
+    height: 250px;
+    width: 200px;
+}
+
+#page-title {
+    margin-top: 10%;
+    font-weight: bold;
+}
+
+#book-title {
+    max-width: 100%;
+}
+
+#book-title-container {
+    margin-bottom: 10px;
+}
+
+.book-review-container {
+    max-width: 80%;
+    width: 80%;
+    min-height: 100vh;
+    flex-wrap: wrap;
+}
+
+.read-review-btn {
+    padding: 10px 20px 10px 20px;
+    margin: 0;
+    color: white;
+    border: none;
+    border-radius: 16px;
+    background-color: #a7312e;
+    cursor: pointer;
+}
+
+.read-review-form {
+    margin-top: 10px;
+}
+
+.book-review {
+    margin: 10px;
+    padding: 5px;
+}
