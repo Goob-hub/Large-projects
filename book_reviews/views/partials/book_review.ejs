@@ -1,14 +1,14 @@
 <% if(locals.bookReviews) {%>
     <% if(locals.onlyFeatured) {%> 
         <% for(const bookReview of bookReviews) {%>
-            <div class="book-review featured flex-box-row">
+            <div class="book-review featured flex-box-column">
                 <div class="cover-container">
                     <img id="cover" src="https://covers.openlibrary.org/b/isbn/<%= bookReview.ibsn %>-L.jpg" alt="">
                 </div>
 
                 <div class="info-container flex-box-column">
                     <p><span id="authors" class="noto-sans-paragraph"><%= bookReview.authors %></span></p>
-                    <h1 ><span id="title" class="noto-sans-title"><%= bookReview.title %></span></h1>
+                    <h1 class="flex-box-column"><span id="title" class="noto-sans-title"><%= bookReview.title %></span></h1>
                     <p class="noto-sans-paragraph">My rating: <span id="rating" class="noto-sans-paragraph" ><%= bookReview.rating %></span> / 5 stars</p>
 
                     <div class="stars-container flex-box-row">

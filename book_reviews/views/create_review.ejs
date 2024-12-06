@@ -29,37 +29,45 @@
             <textarea name="review" style="resize: none;" class="form-control" cols="40" rows="5" placeholder="Type your review here!" required></textarea>
         </div>
 
-        <h3 class="white-txt">Rating: <span id="current-rating" class="white-txt">1</span>/5</h3>
+        <div class="star-rating-container flex-box-column">
+            <div class="review-stars-container">
+                 <div class="checkbox-container">
+                    <input class="checkbox-star" name="rating" value="1" id="1" type="checkbox" checked="true">
+                    <div class="star"></div>
+                 </div>
+                 <div class="checkbox-container">
+                    <input class="checkbox-star" name="rating" value="2" id="2" type="checkbox">
+                    <div class="star"></div>
+                 </div>
+                 <div class="checkbox-container">
+                    <input class="checkbox-star" name="rating" value="3" id="3" type="checkbox">
+                    <div class="star"></div>
+                 </div>
+                 <div class="checkbox-container">
+                    <input class="checkbox-star" name="rating" value="4" id="4" type="checkbox">
+                    <div class="star"></div>
+                 </div>
+                 <div class="checkbox-container">
+                    <input class="checkbox-star" name="rating" value="5" id="5" type="checkbox">
+                    <div class="star"></div>
+                 </div>
+            </div>
 
-        <div class="review-stars-container">
-             <div class="checkbox-container">
-                <input class="checkbox-star" name="rating" value="1" id="1" type="checkbox" checked="true">
-                <div class="star"></div>
-             </div>
-             <div class="checkbox-container">
-                <input class="checkbox-star" name="rating" value="2" id="2" type="checkbox">
-                <div class="star"></div>
-             </div>
-             <div class="checkbox-container">
-                <input class="checkbox-star" name="rating" value="3" id="3" type="checkbox">
-                <div class="star"></div>
-             </div>
-             <div class="checkbox-container">
-                <input class="checkbox-star" name="rating" value="4" id="4" type="checkbox">
-                <div class="star"></div>
-             </div>
-             <div class="checkbox-container">
-                <input class="checkbox-star" name="rating" value="5" id="5" type="checkbox">
-                <div class="star"></div>
-             </div>
+            <h3 class="white-txt">Rating: <span id="current-rating" class="white-txt">1</span>/5</h3>
         </div>
 
-        <div>
-            <label for="featured" class="white-txt">Feature this review:</label>
-            <input class="featured-checkbox" name="featured" type="checkbox" value="false">
+        <div class="featured-checkbox-container flex-box-column">
+            <label for="featured" class="white-txt h3">Feature this review:</label>
+
+            <div class="checkbox-wrapper-5">
+                <div class="check">
+                  <input id="check-5" class="featured-checkbox" type="checkbox" name="featured">
+                  <label for="check-5"></label>
+                </div>
+            </div>
         </div>
 
-        <button type="submit">Create review!</button>
+        <button type="submit" class="submit-review-btn">Create review!</button>
     </form>
 </body>
 

@@ -4,11 +4,13 @@ body {
 }
 
 #cover {
-    height: 80%;
-    width: 80%;
+    height: 250px;
+    width: 200px;
+    margin-bottom: 10px;
 }
 
 #title {
+    text-align: center;
     font-size: 40px;
 }
 
