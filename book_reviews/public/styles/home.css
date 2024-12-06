@@ -58,3 +58,19 @@ body {
 .read-review-form {
     margin-top: 10px;
 }
+
+.author {
+    margin-bottom: 5px;
+}
+
+.rating-container {
+    margin-top: 10px;
+}
+
+.basic-text {
+    font-size: 20px;
+}
+
+.rating-text {
+    margin: 0px;
+}

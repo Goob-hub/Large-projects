@@ -7,19 +7,22 @@
                 </div>
 
                 <div class="info-container flex-box-column">
-                    <p><span id="authors" class="noto-sans-paragraph"><%= bookReview.authors %></span></p>
+                    <p class="author"><span id="authors" class="noto-sans basic-text"><%= bookReview.authors %></span></p>
                     <h1 class="flex-box-column"><span id="title" class="noto-sans-title"><%= bookReview.title %></span></h1>
-                    <p class="noto-sans-paragraph">My rating: <span id="rating" class="noto-sans-paragraph" ><%= bookReview.rating %></span> / 5 stars</p>
 
-                    <div class="stars-container flex-box-row">
-                        <% let count = parseInt(bookReview.rating) %>
-                        <% for (let i = 0; i < 5; i++) { %>
-                            <% if(count !== 0) { count--; %>
-                                <div class="star filled"></div>
-                            <% } else { %>
-                                <div class="star empty"></div>
+                    <div class="rating-container flex-box-column">
+                        <p class="noto-sans basic-text rating-text">Rating: <span id="rating" class="noto-sans basic-text" ><%= bookReview.rating %></span> / 5 stars</p>
+    
+                        <div class="stars-container flex-box-row">
+                            <% let count = parseInt(bookReview.rating) %>
+                            <% for (let i = 0; i < 5; i++) { %>
+                                <% if(count !== 0) { count--; %>
+                                    <div class="star filled"></div>
+                                <% } else { %>
+                                    <div class="star empty"></div>
+                                <% } %>
                             <% } %>
-                        <% } %>
+                        </div>
                     </div>
                     <form action="/review" method="get" class="read-review-form">
                         <input type="hidden" name="id" value="<%= bookReview.id %>">

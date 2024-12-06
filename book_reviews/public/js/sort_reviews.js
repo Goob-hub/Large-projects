@@ -1,6 +1,7 @@
 const sortMethodSelection = document.querySelector("#sort-menu");
 
 let bookReviewContainer = document.querySelector(".book-review-container");
+let sortReviewContainer = document.querySelector("#sort-method-container");
 let sortMenu = document.querySelector("#sort-menu");
 
 if(!localStorage.getItem("sort_method")) {
@@ -10,6 +11,11 @@ if(!localStorage.getItem("sort_method")) {
 function sortBookReviews() {
     let sortingMethod = localStorage.getItem("sort_method");
     let reviews = getReviews();
+
+    if(!reviews) {
+        sortReviewContainer.innerHTML = "";
+        return;
+    }
     
     //Sorts book reviews based on user selected sort method
     switch (sortingMethod) {
@@ -58,6 +64,11 @@ function changeReviewHtml(sortedReviewsArray, sortingMethod) {
 function getReviews() {
     let reviews = [];
     let bookReviews = document.querySelectorAll(".book-review");
+    
+    if(bookReviews.length <= 1) {
+        console.log("There are none or only 1 book reviews on this webpage! The sort button in the nav menu has been removed!");
+        return null;
+    }
     
     bookReviews.forEach(bookReview => {
         reviews.push({

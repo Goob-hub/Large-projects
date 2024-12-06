@@ -1,18 +1,39 @@
 <%- include("partials/header.ejs") %>
 
-<body>
+<body class="flex-box-column">
+    <%- include("partials/navbar.ejs") %>
     <% if(locals.bookReview) { %>
-        <div class="book-review">
-            <h1 ><span id="title"><%= bookReview.title %></span></h1>
-            <img id="cover" src="https://covers.openlibrary.org/b/isbn/<%= bookReview.ibsn %>-M.jpg" alt="">
-            <p><span id="date-read"><%= bookReview.date_read %></span></p>
-            <p><span id="authors"><%= bookReview.authors %></span></p>
-            <p><span id="review"></span><%= bookReview.review %></p>
-
-            <!-- Make actual stars appear in html for more visual prettyness :D -->
-            <p><span id="rating"><%= bookReview.rating %></span> / 5 stars</p>
-        </div>    
+        <div class="book-review flex-box-column">
+            <div class="book-info-container">
+                <div class="title-container">
+                    <h1><span id="title" class="noto-sans h1 white-txt"><%= bookReview.title %></span></h1>
+                    <div class="underline"></div>
+                </div>
+                <p class="noto-sans white-txt basic-text">Written by: <span id="authors" class="noto-sans white-txt basic-text"><%= bookReview.authors %></span></p>
+                <p class="noto-sans white-txt basic-text">Read on: <span id="date-read" class="noto-sans white-txt basic-text"><%= bookReview.date_read %></span></p>
+                <img id="cover" src="https://covers.openlibrary.org/b/isbn/<%= bookReview.ibsn %>-M.jpg" alt="">
+            </div>
+            
+            <div class="review-container">
+                <p id="review" class="noto-sans white-txt basic-text"><%= bookReview.review %></p>
+                <p class="noto-sans white-txt h3 rating-text"><span id="rating" class="noto-sans white-txt h3"><%= bookReview.rating %></span> / 5 stars</p>
+    
+                <div class="stars-container flex-box-row">
+                    <% let count = parseInt(bookReview.rating) %>
+                    <% for (let i = 0; i < 5; i++) { %>
+                        <% if(count !== 0) { count--; %>
+                            <div class="star filled"></div>
+                        <% } else { %>
+                            <div class="star empty"></div>
+                        <% } %>
+                    <% } %>
+                </div>
+            </div>
+        </div> 
     <% } else { %>
         <h1>Could not fetch book review data.</h1>    
     <% } %>
 </body>
+<script src="js/navbar.js"></script>
+<script src="js/sort_reviews.js"></script>
+</html>
