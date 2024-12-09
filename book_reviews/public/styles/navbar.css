@@ -20,6 +20,10 @@
     transition: .5s ease-in-out;
 }
 
+#sort-menu {
+    font-size: 20px;
+}
+
 #nav-btn span {
     display: block;
     position: absolute;
@@ -83,5 +87,14 @@
     opacity: 0;
     transition: .1s linear;
     padding-right: 20px;
+}
+
+.nav-sort-text {
+    text-underline-offset: 5px;
+    text-decoration: underline #a7312e;
+}
+
+.sort-option {
+    font-size: 15px
 }
 

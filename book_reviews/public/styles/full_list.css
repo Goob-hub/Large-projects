@@ -46,3 +46,29 @@ body {
     margin: 10px;
     padding: 5px;
 }
+
+.star {
+    clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+    height: 45px;
+    width: 45px;
+    z-index: -1;
+    offset: 10px;
+    margin: 10px;
+}
+
+.stars-container {
+    margin: 10px;
+}
+
+.empty {
+    background-color: gray;
+}
+
+.filled {
+    background-color: gold;
+}
+
+.rating-text{
+    margin: 10px 0px 0px 0px;
+    font-size: 20px;
+}

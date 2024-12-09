@@ -40,6 +40,22 @@
                     <div class="underline"></div>
                 </div>
                 <img id="cover" src="https://covers.openlibrary.org/b/isbn/<%= bookReview.ibsn %>-M.jpg" alt="">
+
+                <div class="rating-container flex-box-column">
+                    <p class="noto-sans basic-text rating-text white-txt">My Rating: <span id="rating" class="noto-sans basic-text white-txt" ><%= bookReview.rating %></span> / 5 stars</p>
+
+                    <div class="stars-container flex-box-row">
+                        <% let count = parseInt(bookReview.rating) %>
+                        <% for (let i = 0; i < 5; i++) { %>
+                            <% if(count !== 0) { count--; %>
+                                <div class="star filled"></div>
+                            <% } else { %>
+                                <div class="star empty"></div>
+                            <% } %>
+                        <% } %>
+                    </div>
+                </div>
+
                 <form action="/review" method="get" class="read-review-form">
                     <input type="hidden" name="id" value="<%= bookReview.id %>">
                     <button type="submit" class="read-review-btn white-txt">Read review</button>
