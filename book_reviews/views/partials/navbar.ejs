@@ -1,31 +1,35 @@
-<div id="nav-btn">
-    <span></span>
-    <span></span>
-    <span></span>
-</div>
+<div id="nav-container" class="">
+    <div id="nav-btn-container">
+        <div id="nav-btn">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+    </div>
 
-<div class="flex-box-column hidden" id="nav-menu">
-    <div class="nav-option off" id="featured-container">
-        <form action="/" method="get">
-            <button type="submit" class="dm-sans-large-bold nav-option white-txt">Featured</button>
-        </form>
-    </div>
-    <div class="nav-option off" id="full-list-container">
-        <form action="/full-list" method="get">
-            <button type="submit" class="dm-sans-large-bold nav-option white-txt">Full list</button>
-        </form>
-    </div>
-    <div class="nav-option off" id="create-container">
-        <form action="create" method="get">
-            <button type="submit" class="dm-sans-large-bold nav-option white-txt">Create review</button>
-        </form>
-    </div>
-    <div class="nav-option off flex-box-column" id="sort-method-container">
-        <label for="sort-menu" class="dm-sans-large-bold white-txt nav-sort-text">Sort reviews</label>
-        <br>
-        <select id="sort-menu" name="sort_method">
-            <option value="highest_rated" class="dm-sans sort-option">Highest rated</option>
-            <option value="lowest_rated" class="dm-sans sort-option">Lowest rated</option>
-        </select>
+    <div class="flex-box-column" id="nav-menu">
+        <div class="nav-option off" id="featured-container">
+            <form action="/" method="get">
+                <button type="submit" class="dm-sans-large-bold nav-option white-txt">Featured</button>
+            </form>
+        </div>
+        <div class="nav-option off" id="full-list-container">
+            <form action="/full-list" method="get">
+                <button type="submit" class="dm-sans-large-bold nav-option white-txt">Full list</button>
+            </form>
+        </div>
+        <div class="nav-option off" id="create-container">
+            <form action="create" method="get">
+                <button type="submit" class="dm-sans-large-bold nav-option white-txt">Create review</button>
+            </form>
+        </div>
+        <div class="nav-option off flex-box-column" id="sort-method-container">
+            <label for="sort-menu" class="dm-sans-large-bold white-txt nav-sort-text">Sort reviews:</label>
+            <br>
+            <select id="sort-menu" name="sort_method">
+                <option value="highest_rated" class="dm-sans sort-option">Highest rated</option>
+                <option value="lowest_rated" class="dm-sans sort-option">Lowest rated</option>
+            </select>
+        </div>
     </div>
 </div>

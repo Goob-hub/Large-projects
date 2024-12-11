@@ -1,5 +1,10 @@
 <%- include("partials/header.ejs") %>
 <body class="flex-box-column">
+    <%- include("partials/navbar.ejs") %>
+    <div class="title-container">
+        <h1 class="noto-sans-bold header white-txt display-1" id="page-title">Create review</h1>
+        <div class="underline"></div>
+    </div>
     <form class="review-form" autocomplete="off" action="create" method="post">
         <div class="book-information flex-box-column">
             <div class="mb-3">
@@ -72,5 +77,6 @@
 </body>
 
 <script src="js/create_review.js"></script>
-
+<script src="js/navbar.js"></script>
+<script src="js/sort_reviews.js"></script>
 </html>

@@ -1,5 +1,6 @@
 const navBtn = document.querySelector("#nav-btn");
 let navMenu = document.querySelector("#nav-menu");
+let navContainer = document.querySelector("#nav-container")
 
 navBtn.addEventListener("click", e => {
     
@@ -7,7 +8,7 @@ navBtn.addEventListener("click", e => {
 
     navBtn.classList.toggle("open");
     navMenu.classList.toggle("open");
-    navMenu.classList.toggle("hidden");
+    navContainer.classList.toggle("open");
 
     if(navBtn.classList.contains("open")) {
         for (const htmlEl of navMenu.children) {
