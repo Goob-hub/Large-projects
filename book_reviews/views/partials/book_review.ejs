@@ -25,7 +25,7 @@
                         </div>
                     </div>
                     <form action="/review" method="get" class="read-review-form">
-                        <input type="hidden" name="id" value="<%= bookReview.id %>">
+                        <input type="hidden" name="id" value="<%= bookReview.book_id %>">
                         <button type="submit" class="read-review-btn">Read review</button>
                     </form>
                 </div>
@@ -57,7 +57,7 @@
                 </div>
 
                 <form action="/review" method="get" class="read-review-form">
-                    <input type="hidden" name="id" value="<%= bookReview.id %>">
+                    <input type="hidden" name="id" value="<%= bookReview.book_id %>">
                     <button type="submit" class="read-review-btn white-txt">Read review</button>
                 </form>
             </div>

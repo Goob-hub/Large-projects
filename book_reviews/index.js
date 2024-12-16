@@ -26,22 +26,25 @@ app.use(express.static("public"));
 let curWebPage = "home";
 
 async function getFeaturedBookReviews() {
-  const dataToFetch = "books.id, books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
-  const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.id = reviews.id WHERE reviews.featured = true`);
+  const dataToFetch = "books.book_id, books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
+  const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.book_id = reviews.review_id WHERE reviews.featured = true`);
 
   return formatDbDates(response.rows);
 }
 
 async function getAllBookReviews() {
-  const dataToFetch = "books.id, books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
-  const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.id = reviews.id`);
+  const dataToFetch = "books.book_id, books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
+  const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.book_id = reviews.review_id`);
 
   return formatDbDates(response.rows);
 }
 
 async function getBookReviewById(id) {
-  const dataToFetch = "books.id, books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
-  const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.id = reviews.id WHERE books.id = ${id}`);
+  console.log(id)
+  const dataToFetch = "books.book_id, books.title, books.authors, books.ibsn, books.date_read, reviews.review, reviews.rating";
+  const response = await db.query(`SELECT ${dataToFetch} FROM books INNER JOIN reviews ON books.book_id = reviews.review_id WHERE books.book_id = ${id}`);
+
+  console.log(response.rows);
 
   return formatDbDates(response.rows);
 }
@@ -85,7 +88,7 @@ app.get("/full-list", async (req, res) => {
 app.get("/review", async (req, res) => {
   curWebPage = "read_review"; 
   const reviewId = req.query.id;
-
+  console.log(reviewId);
   try {
     const bookReview = await getBookReviewById(reviewId);
     res.render("read_review.ejs", { curWebPage: curWebPage, bookReview: bookReview[0] });
@@ -105,11 +108,17 @@ app.post("/create", async (req, res) => {
   let data = req.body;
   data.rating = data.rating[data.rating.length - 1];
 
+  if(data.featured === "true") {
+    data.featured = true;
+  } else {
+    data.featured = false;
+  }
+
   try {
     const response = await db.query("INSERT INTO books (title, authors, ibsn, date_read) VALUES($1, $2, $3, $4)", [data.title, data.authors, data.ibsn, data.date_read]);
 
     try {
-      const response = await db.query("INSERT INTO reviews (review, rating) VALUES($1, $2)", [data.review, parseInt(data.rating), Boolean.valueOf(data.featured)]);
+      const response = await db.query("INSERT INTO reviews (book_id, review, rating, featured) VALUES($1, $2, $3, $4)", [data.review, parseInt(data.rating), data.featured]);
     } catch (error) {
       console.error(error);
     }
